@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataModel
 {
-    class Table
+    public class Table
     {
     }
 }

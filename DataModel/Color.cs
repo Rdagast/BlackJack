@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataModel
 {
-    public class Deck
+    public enum Color
     {
+        Diamonds, 
+        Clubs,
+        Spades,
+        Hearts
     }
 }
