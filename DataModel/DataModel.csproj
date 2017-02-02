@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="Card.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="DataRegister.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Name.cs" />
