@@ -9,8 +9,9 @@ namespace BlackJack
 {
     class RelayCommand : ICommand
     {
-        readonly Func<bool> _canExecute;
-        readonly Action _execute;
+        readonly Func<bool> _canExecute = null;
+        readonly Action _execute = null;
+
 
         public event EventHandler CanExecuteChanged;
 

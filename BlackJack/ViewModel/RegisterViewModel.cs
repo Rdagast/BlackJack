@@ -1,4 +1,5 @@
-﻿using BlackJack.View;
+﻿using BlackJack;
+using BlackJack.View;
 using Exo4.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,38 @@ namespace BlackJack.ViewModel
 {
     public class RegisterViewModel : BaseViewModel
     {
-        public String username { get; set; }
+      
+        private String _userName;
 
-        public RegisterViewModel() {
-            
+        public String UserName
+        {
+            get { return _userName; }
+            set {
+                SetProperty<String>(ref this._userName, value);
+            }
         }
+
+
+        public RegisterViewModel()
+        {
+
+        }
+
         public ICommand RegisterCommand
         {
             get
             {
-                return new RelayCommand(CanRegister);
+               
+                   return new RelayCommand(CanRegister);
+
+                
+                
+                
             }
         }
         public void CanRegister()
         {
-            Debug.WriteLine(username);
+            Debug.WriteLine(this._userName);
         }
         
 
