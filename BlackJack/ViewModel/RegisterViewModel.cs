@@ -24,7 +24,7 @@ namespace BlackJack.ViewModel
                 SetProperty<String>(ref this._userName, value);
             }
         }
-
+        
 
         public RegisterViewModel()
         {
