@@ -18,7 +18,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBox PlaceholderText="username" Name="username"></TextBox>
+            <TextBox PlaceholderText="username" Name="username" Text="{Binding username}"></TextBox>
         </Grid>
         <Grid Grid.Row="1">
             <TextBox PlaceholderText="firstname" Name="firstname"></TextBox>
@@ -36,7 +36,8 @@
             <PasswordBox PlaceholderText="Repeate password" Name="rpassword"></PasswordBox>
         </Grid>
         <Grid Grid.Row="6">
-            <Button Content="Submit"></Button>
+            <Button Content="Submit" Command="{Binding RegisterCommand, Mode=TwoWay}"
+			></Button>
         </Grid>
     </Grid>
 </Page>

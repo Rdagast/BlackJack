@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlackJack.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,13 @@ namespace BlackJack.View
     /// </summary>
     public sealed partial class Register : Page
     {
+        public RegisterViewModel vm;
         public Register()
         {
             this.InitializeComponent();
+            vm = new RegisterViewModel();
+           
+
         }
     }
 }

@@ -12,6 +12,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -22,6 +23,9 @@
         </Grid>
         <Grid Grid.Row="2">
             <Button Name="submit" Content="Envoyer"/>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Button Content="register" Click="go_register"></Button>
         </Grid>
     </Grid>
 </Page>
