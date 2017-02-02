@@ -23,11 +23,13 @@ namespace BlackJack.View
     /// </summary>
     public sealed partial class Register : Page
     {
+        public RegisterViewModel regist;
         public Register()
         {
             this.InitializeComponent();
 
-            this.DataContext = new RegisterViewModel();
+            regist = new RegisterViewModel();
+            this.DataContext = regist;
 
         }
     }
