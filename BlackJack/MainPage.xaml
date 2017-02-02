@@ -16,16 +16,16 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <TextBox Name="email" PlaceholderText="Email"/>
+            <TextBox Name="email" PlaceholderText="Email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"/>
         </Grid>
         <Grid Grid.Row="1">
-            <PasswordBox Name="password" PlaceholderText="Password"/>
+            <PasswordBox Name="password" PlaceholderText="Password" TextReadingOrder="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
         </Grid>
         <Grid Grid.Row="2">
-            <Button Name="submit" Content="Envoyer"/>
+            <Button Name="submit" Content="Envoyer" Command="{Binding ConnexionCommand}"/>
         </Grid>
         <Grid Grid.Row="3">
-            <Button Content="register" Click="go_register"></Button>
+            <Button Content="register" Click="go_register"/>
         </Grid>
     </Grid>
 </Page>
