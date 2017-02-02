@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace BlackJack
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         readonly Func<bool> _canExecute;
         readonly Action _execute;
