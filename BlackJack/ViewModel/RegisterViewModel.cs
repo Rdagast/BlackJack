@@ -16,7 +16,6 @@ namespace BlackJack.ViewModel
     {
       
         private String _userName;
-
         public String UserName
         {
             get { return _userName; }
@@ -24,7 +23,15 @@ namespace BlackJack.ViewModel
                 SetProperty<String>(ref this._userName, value);
             }
         }
-        
+        private String _firstName;
+        public String FirstName
+        {
+            get { return _firstName; }
+            set
+            {
+                SetProperty<String>(ref this._firstName, value);
+            }
+        }
 
         public RegisterViewModel()
         {
