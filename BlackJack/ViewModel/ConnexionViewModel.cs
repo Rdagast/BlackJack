@@ -8,11 +8,14 @@ using System.Windows.Input;
 using System.Security.Cryptography;
 using Cimbalino.Toolkit.Extensions;
 using System.Net.Http;
+using Windows.UI.Popups;
 
 namespace BlackJack.ViewModel
 {
     public class ConnexionViewModel : BaseViewModel
     {
+        private MessageDialog dialog;
+
         private String _email;
 
         public String Email
@@ -35,38 +38,31 @@ namespace BlackJack.ViewModel
             }
         }
 
+        private ICommand connexionCommand;
         public ICommand ConnexionCommand
         {
             get
             {
-                return new RelayCommand(Connexion);
+                return connexionCommand ?? (connexionCommand = new RelayCommand(() => { Connexion(); }, CanConnect));
             }
         }
 
         public void Connexion()
         {
+
             User user = new User();
             user.email = this._email;
             user.password = this._password;
-            if (Password != null && Email != null)
-            {
-                user.secret = EncodeToMd5(_password);
+            user.secret = EncodeToMd5(_password);
 
-                if (Email != "" && Password != "")
-                {
-                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                 JsonSerializerSettings settings = new JsonSerializerSettings();
                     settings.NullValueHandling = NullValueHandling.Ignore;
                     string json = JsonConvert.SerializeObject((User)user, settings);
 
                     Debug.WriteLine(json);
                     Connect(json);
 
-                }
-                else { Debug.WriteLine("fail connect"); }
-
-            }
-            else
-                Debug.WriteLine("can't encode");
+                
 
             
 
@@ -79,7 +75,27 @@ namespace BlackJack.ViewModel
 
         public bool CanConnect()
         {
-            return true;
+            bool canConnec = false;
+            if (Password != null && Email != null)
+            {
+                if (Email != "" && Password != "")
+                {
+                    canConnec =true;
+
+                }
+                else
+                {
+                    this.dialog = new MessageDialog("remplissez les champs");
+                    BadTextBox(this.dialog);
+                }
+
+            }
+            else
+            {
+                this.dialog = new MessageDialog("remplissez les champs");
+                BadTextBox(this.dialog);
+            }
+            return canConnec;
         }
 
         public String EncodeToMd5(String myString)
@@ -105,6 +121,11 @@ namespace BlackJack.ViewModel
                     Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
                 }
             }
+        }
+
+        public async void BadTextBox(MessageDialog dialog)
+        {
+            await dialog.ShowAsync();
         }
     }
 }
