@@ -30,13 +30,13 @@
             <TextBox PlaceholderText="email" Name="email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"></TextBox>
         </Grid>
         <Grid Grid.Row="4">
-            <PasswordBox PlaceholderText="password" Name="password" TextReadingOrder="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"></PasswordBox>
+            <PasswordBox PlaceholderText="password" Name="password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"></PasswordBox>
         </Grid>
         <Grid Grid.Row="5">
-            <PasswordBox PlaceholderText="Repeate password" Name="rpassword" TextReadingOrder="{Binding UpdateSourceTrigger=PropertyChanged, Path=RPassword, Mode=TwoWay}"></PasswordBox>
+            <PasswordBox PlaceholderText="Repeate password" Name="rpassword" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=RPassword, Mode=TwoWay}"></PasswordBox>
         </Grid>
         <Grid Grid.Row="6">
-            <Button Content="Submit" Command="{Binding RegisterCommand}"
+            <Button Content="Register" x:Name="Submit"  Command="{Binding Path =RegisterCommand}"
 			></Button>
         </Grid>
         
