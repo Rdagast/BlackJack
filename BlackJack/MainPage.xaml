@@ -19,7 +19,7 @@
             <TextBox Name="email" PlaceholderText="Email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"/>
         </Grid>
         <Grid Grid.Row="1">
-            <PasswordBox Name="password" PlaceholderText="Password" TextReadingOrder="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
+            <PasswordBox Name="password" PlaceholderText="Password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
         </Grid>
         <Grid Grid.Row="2">
             <Button Name="submit" Content="Envoyer" Command="{Binding ConnexionCommand}"/>

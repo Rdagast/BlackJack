@@ -12,8 +12,9 @@ namespace DataModel
         public String username { get; set; }
         public String firstname { get; set; }
         public String lastname { get; set; }
-        public String password { get; set; }
         public String email { get; set; }
+        public String password { get; set; }
+        public String secret { get; set; }
         
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BlackJack.View;
+using BlackJack.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,7 @@ namespace BlackJack
         public MainPage()
         {
             this.InitializeComponent();
+            this.DataContext = new ConnexionViewModel();
         }
 
         private void go_register(object sender, RoutedEventArgs e)
