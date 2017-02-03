@@ -5,10 +5,12 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
-using System.Security.Cryptography;
 using Cimbalino.Toolkit.Extensions;
 using System.Net.Http;
 using Windows.UI.Popups;
+using Windows.Security.Cryptography.Core;
+using Windows.Storage.Streams;
+using Windows.Security.Cryptography;
 
 namespace BlackJack.ViewModel
 {
@@ -43,24 +45,45 @@ namespace BlackJack.ViewModel
         {
             get
             {
-                return connexionCommand ?? (connexionCommand = new RelayCommand(() => { Connexion(); }, CanConnect));
+                if(connexionCommand == null)
+                {
+                   connexionCommand= connexionCommand ?? (connexionCommand = new RelayCommand(() => { Connexion(); }, CanConnect));
+
+                }
+                return connexionCommand;
             }
         }
 
         public void Connexion()
         {
+            if (_email != null && _password != null)
+            {
+                if(_email != String.Empty && _password != String.Empty)
+                {
+                    User user = new User();
+                    user.email = this._email;
+                    user.password = this._password;
+                    user.secret = EncodeToMd5(_password);
 
-            User user = new User();
-            user.email = this._email;
-            user.password = this._password;
-            user.secret = EncodeToMd5(_password);
-
-                 JsonSerializerSettings settings = new JsonSerializerSettings();
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
                     settings.NullValueHandling = NullValueHandling.Ignore;
                     string json = JsonConvert.SerializeObject((User)user, settings);
 
                     Debug.WriteLine(json);
                     Connect(json);
+                }
+                else
+                {
+                    this.dialog = new MessageDialog("remplissez les champs");
+                    BadTextBox(this.dialog);
+                }
+            }
+            else
+            {
+                this.dialog = new MessageDialog("remplissez les champs");
+                BadTextBox(this.dialog);
+            }
+           
 
                 
 
@@ -75,35 +98,50 @@ namespace BlackJack.ViewModel
 
         public bool CanConnect()
         {
-            bool canConnec = false;
-            if (Password != null && Email != null)
-            {
-                if (Email != "" && Password != "")
-                {
-                    canConnec =true;
+            //bool canConnec = false;
+            
+            //if (_email != string.Empty && _email != null && _password != null && _password != string.Empty)
+            //    {
+            //        canConnec = true;
 
-                }
-                else
-                {
-                    this.dialog = new MessageDialog("remplissez les champs");
-                    BadTextBox(this.dialog);
-                }
-
-            }
-            else
-            {
-                this.dialog = new MessageDialog("remplissez les champs");
-                BadTextBox(this.dialog);
-            }
-            return canConnec;
+            //    }
+            //    else
+            //    {
+            //        this.dialog = new MessageDialog("remplissez les champs");
+            //        BadTextBox(this.dialog);
+            //    }
+            //else
+            //{
+            //    this.dialog = new MessageDialog("remplissez les champs");
+            //    BadTextBox(this.dialog);
+            //}
+            return true;
         }
 
         public String EncodeToMd5(String myString)
         {
-            var myStringBytes = myString.GetBytes(); // this will get the UTF8 bytes for the string
+            String md5Hash = null;
+            if (myString != null)
+            {
+                //var myStringBytes = myString.GetBytes(); 
 
-            var md5Hash = myStringBytes.ComputeMD5Hash().ToBase64String();
-            md5Hash = md5Hash.Remove(md5Hash.Length - 2);
+                //md5Hash = myStringBytes.ComputeMD5Hash().ToString();
+                //// md5Hash = md5Hash.Remove(md5Hash.Length - 1);
+
+                //md5Hash = Convert.ToBase64String(Encoding.UTF8.GetBytes(md5Hash));
+                string strAlgName = HashAlgorithmNames.Md5;
+                IBuffer buffUtf8Msg = CryptographicBuffer.ConvertStringToBinary(myString, BinaryStringEncoding.Utf8);
+
+                HashAlgorithmProvider objAlgProv = HashAlgorithmProvider.OpenAlgorithm(strAlgName);
+                md5Hash = objAlgProv.AlgorithmName;
+
+                IBuffer buffHash = objAlgProv.HashData(buffUtf8Msg);
+                md5Hash= CryptographicBuffer.EncodeToHexString(buffHash);
+
+                md5Hash = Convert.ToBase64String(md5Hash.GetBytes());
+
+            }
+            
 
             return md5Hash;
         }
@@ -116,6 +154,7 @@ namespace BlackJack.ViewModel
 
                 var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("/api/auth/login", itemJson);
+                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine(response.Content.ReadAsStringAsync().Result);

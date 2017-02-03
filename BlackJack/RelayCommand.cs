@@ -23,8 +23,15 @@ namespace BlackJack
 
         public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
+           if (execute == null)
+           {
+               throw new ArgumentNullException("execute");
+           }
+
+           if (canExecute == null)
+           {
+               throw new ArgumentNullException("canExecute");
+           }
             _execute = execute;
             _canExecute = canExecute;
         }
@@ -41,6 +48,7 @@ namespace BlackJack
 
         public void Execute(Object parameter)
         {
+
             _execute();
         }
     }

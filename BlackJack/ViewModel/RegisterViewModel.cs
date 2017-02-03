@@ -93,32 +93,38 @@ namespace BlackJack.ViewModel
         {
             get
             {
-                return registerCommand ?? (registerCommand = new RelayCommand(() => { Register(); }, CanRegister));
+                if (registerCommand == null) {
+                    registerCommand = registerCommand ?? (registerCommand = new RelayCommand(() => { Register(); }, CanRegister));
+                }
+                return registerCommand;
             }
         }
         public bool CanRegister()
         {
-
-            bool result = false;
-            if (_password == _rPassword)
-            {
-                //if(_email != null)
-                //{
-                //    bool response = IsEmail(_email);
-                //    if (response == true)
-                //    {
-                //        result = true;
-                //    }
-                //}
-                result = true;
-                
-            }
-            else
-            {
-                this.dialog = new MessageDialog("Password and repeat password must be identic");
-                BadTextBox(this.dialog);
-            }
-            return result;
+            //bool result = false;
+            //if (_password == _rPassword)
+            //{
+            //    if(_email != null)
+            //    {
+            //       bool response = IsEmail(_email);
+            //       if (response == true)
+            //        {
+            //            result = true;
+            //        }
+            //        else
+            //        {
+            //            this.dialog = new MessageDialog("The email must be a valid email address");
+            //            BadTextBox(this.dialog);
+            //        }
+            //    }
+            //    result = true; 
+            //}
+            //else
+            //{
+            //    this.dialog = new MessageDialog("Password and repeat password must be identic");
+            //    BadTextBox(this.dialog);
+            //}
+            return true;
         }
         public async void BadTextBox(MessageDialog dialog)
         {
@@ -126,19 +132,43 @@ namespace BlackJack.ViewModel
         }
         public void Register()
         {
+            if (_password == _rPassword)
+            {
+                if (_email != null)
+                {
+                    bool response = IsEmail(_email);
+                    if (response == true)
+                    {
+                        User user = new User();
+                        user.username = this._userName;
+                        user.firstname = this._firstName;
+                        user.lastname = this._lastName;
+                        user.email = this._email;
+                        user.password = this.Password;
 
-            User user = new User();
-            user.username = this._userName;
-            user.firstname = this._firstName;
-            user.lastname = this._lastName;
-            user.email = this._email;
-            user.password = this.Password;
+                        string json = JsonConvert.SerializeObject((User)user);
+                        json = "{ \"user\" : " + json + " } ";
+                        Debug.WriteLine(json);
+                        CallApi(json);
+                    }
+                    else
+                    {
+                        this.dialog = new MessageDialog("The email must be a valid email address");
+                        BadTextBox(this.dialog);
+                    }
+                }
+                else
+                {
+                    this.dialog = new MessageDialog("The email must be a valid email address");
+                    BadTextBox(this.dialog);
+                }
 
-            string json = JsonConvert.SerializeObject((User)user);
-            json = "{ \"user\" : " + json + " } ";
-            Debug.WriteLine(json);
-            CallApi(json);
-
+            }
+            else
+            {
+                this.dialog = new MessageDialog("The password and repeat password must be identic");
+                BadTextBox(this.dialog);
+            }
         }
         public async void CallApi(String json)
         {
@@ -157,11 +187,7 @@ namespace BlackJack.ViewModel
         }
         public bool IsEmail(string _email)
         {
-           
-            // Return true if strIn is in valid e-mail format.
-            
                 return Regex.IsMatch(_email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
-            
         }
 
     }
