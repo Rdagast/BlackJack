@@ -11,11 +11,14 @@ using Windows.UI.Popups;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 using Windows.Security.Cryptography;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 namespace BlackJack.ViewModel
 {
     public class ConnexionViewModel : BaseViewModel
     {
+        Frame currentFrame { get { return Window.Current.Content as Frame; } }
         private MessageDialog dialog;
 
         private String _email;
@@ -154,10 +157,11 @@ namespace BlackJack.ViewModel
 
                 var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("/api/auth/login", itemJson);
-                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+              
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+                    String _response = response.Content.ReadAsStringAsync().Result;
+                    Debug.WriteLine(_response);
                 }
             }
         }

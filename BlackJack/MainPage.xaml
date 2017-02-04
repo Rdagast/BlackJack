@@ -6,16 +6,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Assets/Images/button.png"></ImageBrush>
+                </Setter.Value>
+            </Setter>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/Images/fond.png"></ImageBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical">
-            <TextBox Name="email" PlaceholderText="Email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"/>
-            <PasswordBox Name="password" PlaceholderText="Password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
-            <Button Name="submit" Content="Envoyer" Command="{Binding ConnexionCommand}"/>
-            <Button Content="register" Click="go_register"/>
+
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBox  Name="email"  PlaceholderText="Email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"/>
+                <PasswordBox Name="password" PlaceholderText="Password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
+                <Button Style="{StaticResource ButtonStyle}" Name="submit" Content="Envoyer" Command="{Binding ConnexionCommand}"/>
+                <Button Style="{StaticResource ButtonStyle}"  Content="register" Click="go_register"/>
+            </StackPanel>
         </StackPanel>
+
+
     </Grid>
 </Page>
