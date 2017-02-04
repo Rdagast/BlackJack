@@ -14,12 +14,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace BlackJack.ViewModel
 {
     public class RegisterViewModel : BaseViewModel
     {
-
+        Frame currentFrame { get { return Window.Current.Content as Frame; } }
         MessageDialog dialog = new MessageDialog(" ");
         private String _userName;
         public String UserName
@@ -181,7 +182,7 @@ namespace BlackJack.ViewModel
                 Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
                 if (response.IsSuccessStatusCode)
                 {
-
+                    currentFrame.Navigate(typeof(MainPage), null);
                 }
             }
         }
