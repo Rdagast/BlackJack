@@ -20,6 +20,7 @@ namespace DataModel
             this._name = name;
             this._value = CalcValueCard();
         }
+
         public int CalcValueCard()
         {
             return 0;
