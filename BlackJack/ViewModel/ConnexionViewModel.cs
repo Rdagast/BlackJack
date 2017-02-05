@@ -23,6 +23,16 @@ namespace BlackJack.ViewModel
 
         private String _email;
 
+        private User player;
+
+        public User Player
+        {
+            get { return player; }
+            set {
+                SetProperty<User>(ref this.player, value);
+            }
+        }
+
         public String Email
         {
             get { return _email; }
@@ -161,7 +171,13 @@ namespace BlackJack.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     String _response = response.Content.ReadAsStringAsync().Result;
-                    Debug.WriteLine(_response);
+
+                    
+                    this.player = JsonConvert.DeserializeObject<User>(_response);
+                  
+
+                    Debug.WriteLine(this.player.token_type);
+                   
                 }
             }
         }
