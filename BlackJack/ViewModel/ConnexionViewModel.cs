@@ -176,7 +176,7 @@ namespace BlackJack.ViewModel
                     this.player = JsonConvert.DeserializeObject<User>(_response);
                   
 
-                    Debug.WriteLine(this.player.token_type);
+                    Debug.WriteLine(this.player.access_token);
                    
                 }
             }

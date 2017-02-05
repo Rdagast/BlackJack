@@ -10,18 +10,10 @@ namespace DataModel
 
     public class User
     {
-        [JsonProperty("username")]
-        public String username { get; set; }
-        [JsonProperty("firstname")]
-        public String firstname { get; set; }
-        [JsonProperty("lastname")]
-        public String lastname { get; set; }
-        [JsonProperty("email")]
-        public String email { get; set; }
-        [JsonProperty("password")]
-        public String password { get; set; }
-        public String secret { get; set; }
-        [JsonProperty("token_type")]
+        [JsonProperty("status")]
+        public int status { get; set; }
+
+        [JsonProperty("tokens\":{\"token_type")]
         public String token_type { get; set; }
         [JsonProperty("expires_in")]
         public double expires_in { get; set; }
@@ -29,21 +21,42 @@ namespace DataModel
         public String access_token { get; set; }
         [JsonProperty("refresh_token")]
         public String refresh_token { get; set; }
-        [JsonProperty("status")]
-        public int status { get; set; }
+
         [JsonProperty("id")]
         public int id { get; set; }
-        [JsonProperty("is_connected")]
-        public int _isConnected { get; set; }
-        [JsonProperty("stack")]
-        public Double stack { get; set; }
-        [JsonProperty("last_refill")]
-        public DateTime _lastRefill { get; set; }
+        [JsonProperty("username")]
+        public String username { get; set; }
+        [JsonProperty("email")]
+        public String email { get; set; }
         [JsonProperty("created_at")]
         public DateTime created_at { get; set; }
 
         [JsonProperty("updated_at")]
         public DateTime updated_at { get; set; }
+        [JsonProperty("firstname")]
+        public String firstname { get; set; }
+        [JsonProperty("lastname")]
+        public String lastname { get; set; }
+        [JsonProperty("stack")]
+        public Double stack { get; set; }
+
+        [JsonProperty("is_connected")]
+        public int _isConnected { get; set; }
+
+        [JsonProperty("last_refill")]
+        public DateTime _lastRefill { get; set; }
+
+
+        [JsonProperty("password")]
+        public String password { get; set; }
+        public String secret { get; set; }
+        
+       
+        
+       
+        
+      
+       
 
         public Double _bet { get; set; }
 
