@@ -12,10 +12,18 @@ namespace DataModel
         private Name _name { get; set; }
         private int _value { get; set; }
 
-        public int ValueCard()
+        
+
+        public Card(Color color, Name name)
+        {
+            this._type = color;
+            this._name = name;
+            this._value = CalcValueCard();
+        }
+
+        public int CalcValueCard()
         {
             return 0;
         }
-
     }
 }
