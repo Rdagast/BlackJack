@@ -1,4 +1,5 @@
-﻿using DataModel;
+﻿using BlackJack.View;
+using DataModel;
 using Exo4.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace BlackJack.ViewModel
 {
@@ -18,44 +22,75 @@ namespace BlackJack.ViewModel
         public Game MyGame { get; set; }
         public User MyUser { get; set; }
         public User Bank { get; set; }
+        Frame currentFrame { get { return Window.Current.Content as Frame; } }
+
         private MessageDialog dialog;
 
 
-        public GameViewModel(List<User> players, Api api)
+        public GameViewModel(User apiUser)
         {
-            this.MyGame = new Game(players);
-            this.MyUser = api.user;
+            this.MyGame = new Game();
+            this.MyUser = apiUser;
+            
+            // check the user has no card
+            if(this.MyUser.MyCards[0] != null || this.MyUser.MyCards.Count > 1) 
+            {
+                this.MyUser.MyCards.RemoveRange(0, this.MyUser.MyCards.Count);
+                this.MyUser.MyCards.Add(new List<Card>());
+            }
+           
+            //set Bank player
             this.Bank = new User();
-            CoreGame();
+
+            //2 starting cards for both player
+            GetCard(Bank);
+            GetCard(Bank);
+            GetCard(MyUser);
+            GetCard(MyUser);
         }
 
-        public void CoreGame()
+        private ICommand newCardCommand;
+        public ICommand NewCardCommand
         {
-            bool _run = true;
-            while (_run) // run game
+            get
             {
-                foreach (var item in GetScore(Bank))
+                if (newCardCommand == null)
                 {
-                    if(item <= 16)
-                        GetCard(Bank);
+                    newCardCommand = newCardCommand ?? (newCardCommand = new RelayCommand(() => { DistributeCard(); }));
                 }
-                GetCard(MyUser);
+                return newCardCommand;
+            }
+        }
 
-                _run = IsGameFinish();
+        public void DistributeCard()
+        {
+            //give a card and check victory or loose
+            GetCard(MyUser);
+            BankPlay();
+            IsGameFinish();
+        }
+
+        public void BankPlay()
+        {
+            foreach (var item in GetScore(Bank))
+            {
+                // Bank don't want to have more than 21 with the next card
+                if (item <= 16) 
+                    GetCard(Bank);
             }
         }
 
         public void GetCard(User user)
         {
-            user.MyCards[0].Add(MyGame.Decks[0].Cards[0]); // distribute card
+            // distribute card
+            user.MyCards[0].Add(MyGame.Decks[0].Cards[0]); 
             MyGame.Decks.RemoveAt(0);
         }
 
-        public bool IsGameFinish()
+        public void IsGameFinish()
         {
             List<int> bankScores = GetScore(Bank);
             List<int> MyScores = GetScore(MyUser);
-            bool run = true;
 
             foreach (int score in MyScores)
             {
@@ -65,33 +100,45 @@ namespace BlackJack.ViewModel
                     {
                         if (score > bankScore)
                         {
+                            //victory
                             UpdateStack(MyUser.Bet * 2.5);
                             this.dialog = new MessageDialog("vous avez gagné" + (MyUser.Bet * 2.5));
                             BadTextBox(this.dialog);
                             MyUser.Bet = 0;
-
+                            currentFrame.Navigate(typeof(PlayAgain), MyUser);
+                        }
+                        else if(score == bankScore)
+                        {
+                            //draw
+                            MyUser.stack += MyUser.Bet;
+                            this.dialog = new MessageDialog("égalité, reprenez votre mise" + MyUser.Bet);
+                            BadTextBox(this.dialog);
+                            MyUser.Bet = 0;
+                            currentFrame.Navigate(typeof(PlayAgain), MyUser);
                         }
                         else
                         {
-                            MyUser.stack += MyUser.Bet;
-                            this.dialog = new MessageDialog("égalité");
+                            //loose
+                            UpdateStack(-MyUser.Bet);
+
+                            this.dialog = new MessageDialog("Vous avez perdu face à la banque, vous perdez :"+ MyUser.Bet);
                             BadTextBox(this.dialog);
                             MyUser.Bet = 0;
+                            currentFrame.Navigate(typeof(PlayAgain), MyUser);
                         }
-                        run = false;
                     }
                 }
                 if (score > 21)
                 {
+                    //loose
                     UpdateStack(- MyUser.Bet);
 
                     this.dialog = new MessageDialog("Vous avez dépassez 21");
                     BadTextBox(this.dialog);
                     MyUser.Bet = 0;
-                    run = false;
+                    currentFrame.Navigate(typeof(PlayAgain), MyUser);
                 }
             }
-            return run;
         }
 
         public List<int> GetScore (User user)
@@ -119,7 +166,7 @@ namespace BlackJack.ViewModel
         {
             using (var client = new HttpClient())
             {
-                //send the new stack
+                //send the new stack to api in GET
                 client.BaseAddress = new Uri("http://demo.comte.re/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -132,5 +179,41 @@ namespace BlackJack.ViewModel
                 }
             }
         }
+
+        private ICommand stopGameCommand;
+        public ICommand StopGameCommand
+        {
+            get
+            {
+                if (stopGameCommand == null)
+                {
+                    stopGameCommand = stopGameCommand ?? (stopGameCommand = new RelayCommand(() => { StopGame(); }));
+                }
+                return stopGameCommand;
+            }
+        }
+
+        public void StopGame()
+        {
+            MyGame.IsStop = true;
+        }
+
+        //private ICommand betCommand;
+        //public ICommand BetCommand
+        //{
+        //    get
+        //    {
+        //        if (betCommand == null)
+        //        {
+        //            betCommand = betCommand ?? (betCommand = new RelayCommand(() => { Bet(); }));
+        //        }
+        //        return betCommand;
+        //    }
+        //}
+
+        //public void Bet()
+        //{
+
+        //}
     }
 }

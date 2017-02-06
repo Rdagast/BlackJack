@@ -1,5 +1,4 @@
-﻿using BlackJack.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,12 +20,17 @@ namespace BlackJack.View
     /// <summary>
     /// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
     /// </summary>
-    public sealed partial class Game : Page
+    public sealed partial class GameView : Page
     {
-        public Game()
+        public GameView()
         {
             this.InitializeComponent();
-            
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            GameViewModel gameViewModel = new GameViewModel((Api)e.Parameter);
+            this.DataContext = gameViewModel;
         }
     }
 }
