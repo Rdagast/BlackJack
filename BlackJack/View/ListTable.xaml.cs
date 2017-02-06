@@ -1,6 +1,8 @@
 ﻿using BlackJack.ViewModel;
+using DataModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,13 +24,24 @@ namespace BlackJack.View
     /// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
     /// </summary>
     public sealed partial class ListTable : Page
-    {   
+    {
+        public Api parameters;
         public ListTableViewModel ListTableViewModel;
         public ListTable()
         {
             this.InitializeComponent();
-            ListTableViewModel = new ListTableViewModel();
+            
+           
+       
+        
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ListTableViewModel = new ListTableViewModel((Api)e.Parameter);
+            //((ListTableViewModel)this.DataContext).Api = (Api)e.Parameter;
             this.DataContext = ListTableViewModel;
         }
+
     }
+
 }
