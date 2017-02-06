@@ -10,6 +10,11 @@ namespace DataModel
     public class Player : User
     {
         
-       
+
+        public Player()
+        {
+           
+        }
+
     }
 }

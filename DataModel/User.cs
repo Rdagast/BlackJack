@@ -13,14 +13,7 @@ namespace DataModel
         [JsonProperty("status")]
         public int status { get; set; }
 
-        [JsonProperty("tokens\":{\"token_type")]
-        public String token_type { get; set; }
-        [JsonProperty("expires_in")]
-        public double expires_in { get; set; }
-        [JsonProperty("access_token")]
-        public String access_token { get; set; }
-        [JsonProperty("refresh_token")]
-        public String refresh_token { get; set; }
+       
 
         [JsonProperty("id")]
         public int id { get; set; }
@@ -51,7 +44,7 @@ namespace DataModel
         public String password { get; set; }
         public String secret { get; set; }
         
-       
+        
         
        
         
@@ -63,6 +56,8 @@ namespace DataModel
         public List<List<Card>> _listCards { get; set; }
         public Double _assurance { get; set; }
 
+        
+
         //public User()
         //{
 
@@ -70,10 +65,6 @@ namespace DataModel
         public User()
         {
             this.status = 0;
-            this.token_type = null;
-            this.expires_in = 0;
-            this.access_token = null;
-            this.refresh_token = null;
             this.id = 0;
             this.username = null;
             this.email = null;
@@ -84,8 +75,11 @@ namespace DataModel
             this.stack = 0;
             this._isConnected = 0;
             this._lastRefill = new DateTime();
-           
-           
+            
+
+
+
+
         }
 
 

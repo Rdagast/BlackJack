@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Deck.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Table.cs" />
+    <Compile Include="Token.cs" />
     <Compile Include="User.cs" />
     <EmbeddedResource Include="Properties\DataModel.rd.xml" />
   </ItemGroup>
