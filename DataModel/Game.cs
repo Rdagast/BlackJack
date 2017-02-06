@@ -9,19 +9,27 @@ namespace DataModel
     public class Game
     {
         public List<Deck> Decks { get; set; }
-        public List<Player> Players { get; set; }
+        public List<User> Players { get; set; }
+        public bool IsStop { get; set; }
 
-        public Game(List<Player> players)
+        public Game(List<User> players)
         {
             for (int i = 0; i < 6; i++)
             {
                 this.Decks.Add(new Deck());
+                foreach (Deck d in Decks)
+                {
+                    d.ShuffleList();
+                }
+                this.Decks[2].AddCutCard(); // add cut card between 50% and 80% of game Cards
             }
 
-            foreach(Player p in players)
+            foreach(User p in players)
             {
                 this.Players.Add(p);
             }
+
+            this.IsStop = false;
         }
     } 
 }
