@@ -2,6 +2,7 @@
 using Exo4.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,6 +26,7 @@ namespace BlackJack.ViewModel
             this.MyGame = new Game(players);
             this.MyUser = api.user;
             this.Bank = new User();
+            CoreGame();
         }
 
         public void CoreGame()
@@ -32,7 +34,11 @@ namespace BlackJack.ViewModel
             bool _run = true;
             while (_run) // run game
             {
-                GetCard(Bank);
+                foreach (var item in GetScore(Bank))
+                {
+                    if(item <= 16)
+                        GetCard(Bank);
+                }
                 GetCard(MyUser);
 
                 _run = IsGameFinish();
@@ -83,8 +89,6 @@ namespace BlackJack.ViewModel
                     BadTextBox(this.dialog);
                     MyUser.Bet = 0;
                     run = false;
-
-
                 }
             }
             return run;
@@ -111,11 +115,11 @@ namespace BlackJack.ViewModel
             await dialog.ShowAsync();
         }
 
-       
         public async void UpdateStack(Double earnings)
         {
             using (var client = new HttpClient())
             {
+                //send the new stack
                 client.BaseAddress = new Uri("http://demo.comte.re/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -124,6 +128,7 @@ namespace BlackJack.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     string res = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine(res);
                 }
             }
         }
