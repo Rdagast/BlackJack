@@ -22,7 +22,7 @@ namespace DataModel
             }
         }
 
-        public List<Card> ShuffleList<E>()
+        public void ShuffleList()
         {
             List<Card> cardList = new List<Card>();
 
@@ -34,8 +34,14 @@ namespace DataModel
                 cardList.Add(this.Cards[randomIndex]); //add it to the new, random list
                 this.Cards.RemoveAt(randomIndex); //remove to avoid duplicates
             }
+            this.Cards = cardList;
+        }
 
-            return cardList; //return the new random list
+        public void AddCutCard()
+        {
+            var random = new Random();
+            int randomIndex = random.Next(0, this.Cards.Count);
+            this.Cards.Insert(randomIndex, new Card());
         }
     }
 }

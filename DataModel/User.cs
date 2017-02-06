@@ -50,13 +50,14 @@ namespace DataModel
         [JsonProperty("password")]
         public String password { get; set; }
         public String secret { get; set; }
-        
-       
-        
-       
-        
-      
-       
+
+
+        public Double Bet { get; set; }
+        public List<List<Card>> MyCards { get; set; }
+
+
+
+
 
         public Double _bet { get; set; }
 
@@ -84,12 +85,9 @@ namespace DataModel
             this.stack = 0;
             this._isConnected = 0;
             this._lastRefill = new DateTime();
-           
-           
+            this. MyCards = new List<List<Card>>();
+            this.MyCards.Add(new List<Card>());
+
         }
-
-
-
-
     }
 }

@@ -11,19 +11,31 @@ namespace BlackJack.ViewModel
     {
 
         public Game MyGame { get; set; }
-        private Double _bet;
 
-        public GameViewModel(List<Player> players)
+        public GameViewModel(List<User> players)
         {
             MyGame = new Game(players);
-            this._bet = 0;
         }
 
-
-
-        public void IsGameFinish()
+        public void CoreGame()
         {
+            bool _run = true;
+            while (_run) // run game
+            {
+                MyGame.Players[0].MyCards[0].Add(MyGame.Decks[0].Cards[0]); // distribute card
+                MyGame.Decks.RemoveAt(0);
 
+                _run = IsGameFinish();
+            }
+        }
+
+        public bool IsGameFinish()
+        {
+            //foreach (List<Card> c in MyGame.Players[0].MyCards)
+            //{
+            //    if(c)
+            //}
+            return true;
         }
     }
 }

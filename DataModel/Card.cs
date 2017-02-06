@@ -8,17 +8,22 @@ namespace DataModel
 {
     public class Card
     {
-        private Color _type { get; set; }
-        private Name _name { get; set; }
-        private int _value { get; set; }
+        public Color Type { get; set; }
+        public Name Name { get; set; }
+        public int Value { get; set; }
+        public bool IsCutCard { get; set; }
 
-        
 
         public Card(Color color, Name name)
         {
-            this._type = color;
-            this._name = name;
-            this._value = CalcValueCard();
+            this.Type = color;
+            this.Name = name;
+            this.Value = CalcValueCard();
+            this.IsCutCard = false;
+        }
+        public Card()
+        {
+            this.IsCutCard = true;
         }
 
         public int CalcValueCard()
