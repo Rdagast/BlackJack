@@ -173,7 +173,7 @@ namespace BlackJack.ViewModel
               
                 if (response.IsSuccessStatusCode)
                 {
-                    String _response = response.Content.ReadAsStringAsync().Result;
+                    String _response =  response.Content.ReadAsStringAsync().Result;
 
                     
                     this.api = new Api();
@@ -182,8 +182,9 @@ namespace BlackJack.ViewModel
                     Debug.WriteLine(_response);
                     Debug.WriteLine(this.api.user.stack);
 
-                    ListTableViewModel listTable = new ListTableViewModel(this.api);
-                    currentFrame.Navigate(typeof(ListTable));
+                    
+                   
+                    currentFrame.Navigate(typeof(ListTable),this.api);
 
                 }
             }
