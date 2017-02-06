@@ -147,7 +147,7 @@ namespace BlackJack.ViewModel
                         user.email = this._email;
                         user.password = this.Password;
 
-                        string json = JsonConvert.SerializeObject((User)user);
+                        string json = JsonConvert.SerializeObject(user);
                         json = "{ \"user\" : " + json + " } ";
                         Debug.WriteLine(json);
                         CallApi(json);

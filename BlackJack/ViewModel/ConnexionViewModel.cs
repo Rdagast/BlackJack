@@ -13,6 +13,7 @@ using Windows.Storage.Streams;
 using Windows.Security.Cryptography;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
+using BlackJack.View;
 
 namespace BlackJack.ViewModel
 {
@@ -23,13 +24,15 @@ namespace BlackJack.ViewModel
 
         private String _email;
 
-        private User player;
+        
+        private Api api;
 
-        public User Player
+        
+        public Api Api
         {
-            get { return player; }
+            get { return api; }
             set {
-                SetProperty<User>(ref this.player, value);
+                SetProperty<Api>(ref this.api, value);
             }
         }
 
@@ -173,11 +176,15 @@ namespace BlackJack.ViewModel
                     String _response = response.Content.ReadAsStringAsync().Result;
 
                     
-                    this.player = JsonConvert.DeserializeObject<User>(_response);
-                  
+                    this.api = new Api();
+                    this.api = JsonConvert.DeserializeObject<Api>(_response);
 
-                    Debug.WriteLine(this.player.access_token);
-                   
+                    Debug.WriteLine(_response);
+                    Debug.WriteLine(this.api.user.stack);
+
+                    ListTableViewModel listTable = new ListTableViewModel(this.api);
+                    currentFrame.Navigate(typeof(ListTable));
+
                 }
             }
         }
