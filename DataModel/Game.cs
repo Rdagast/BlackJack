@@ -10,6 +10,7 @@ namespace DataModel
     {
         public List<Deck> Decks { get; set; }
         public List<User> Players { get; set; }
+        public bool IsStop { get; set; }
 
         public Game(List<User> players)
         {
@@ -27,6 +28,8 @@ namespace DataModel
             {
                 this.Players.Add(p);
             }
+
+            this.IsStop = false;
         }
     } 
 }
