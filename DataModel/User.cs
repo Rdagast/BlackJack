@@ -79,5 +79,10 @@ namespace DataModel
             this.MyCards = new List<List<Card>>();
             this.MyCards.Add(new List<Card>());
         }
+
+        ~User()
+        {
+
+        }
     }
 }

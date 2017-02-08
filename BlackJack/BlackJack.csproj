@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\button.png" />
+    <Content Include="Assets\Images\fauteuil.png" />
     <Content Include="Assets\Images\fond.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

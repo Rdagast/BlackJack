@@ -1,5 +1,4 @@
 ﻿using DataModel;
-using Exo4.ViewModel;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -19,23 +18,14 @@ namespace BlackJack.ViewModel
 {
     public class ConnexionViewModel : BaseViewModel
     {
+        #region Properties
+        // Current window
         Frame currentFrame { get { return Window.Current.Content as Frame; } }
+
+        // object for the alert
         private MessageDialog dialog;
 
         private String _email;
-
-        
-        private Api api;
-
-        
-        public Api Api
-        {
-            get { return api; }
-            set {
-                SetProperty<Api>(ref this.api, value);
-            }
-        }
-
         public String Email
         {
             get { return _email; }
@@ -44,9 +34,15 @@ namespace BlackJack.ViewModel
                 SetProperty<String>(ref this._email, value);
             }
         }
-
+        private Api _api;
+        public Api Api
+        {
+            get { return _api; }
+            set {
+                SetProperty<Api>(ref this._api, value);
+            }
+        }
         private String _password;
-
         public String Password
         {
             get { return _password; }
@@ -55,7 +51,10 @@ namespace BlackJack.ViewModel
                 SetProperty<String>(ref this._password, value);
             }
         }
+        #endregion
 
+        #region Command
+        // Command connexion
         private ICommand connexionCommand;
         public ICommand ConnexionCommand
         {
@@ -63,13 +62,20 @@ namespace BlackJack.ViewModel
             {
                 if(connexionCommand == null)
                 {
-                   connexionCommand= connexionCommand ?? (connexionCommand = new RelayCommand(() => { Connexion(); }, CanConnect));
+                    connexionCommand = connexionCommand ?? (connexionCommand = new RelayCommand (param => { Connexion(); }));
 
                 }
                 return connexionCommand;
             }
         }
+        #endregion
 
+        #region Function
+        /*
+         * Connexion with : 
+         * Call  function MD5 
+         * Call function Connexion Api
+         */
         public void Connexion()
         {
             if (_email != null && _password != null)
@@ -83,7 +89,7 @@ namespace BlackJack.ViewModel
 
                     JsonSerializerSettings settings = new JsonSerializerSettings();
                     settings.NullValueHandling = NullValueHandling.Ignore;
-                    string json = JsonConvert.SerializeObject((User)user, settings);
+                    string json = JsonConvert.SerializeObject(user, settings);
 
                     Debug.WriteLine(json);
                     Connect(json);
@@ -99,41 +105,8 @@ namespace BlackJack.ViewModel
                 this.dialog = new MessageDialog("remplissez les champs");
                 BadTextBox(this.dialog);
             }
-           
-
-                
-
-            
-
-            /*JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            string json = JsonConvert.SerializeObject((User)user, settings);
-            Debug.WriteLine(json);*/
-
         }
-
-        public bool CanConnect()
-        {
-            //bool canConnec = false;
-            
-            //if (_email != string.Empty && _email != null && _password != null && _password != string.Empty)
-            //    {
-            //        canConnec = true;
-
-            //    }
-            //    else
-            //    {
-            //        this.dialog = new MessageDialog("remplissez les champs");
-            //        BadTextBox(this.dialog);
-            //    }
-            //else
-            //{
-            //    this.dialog = new MessageDialog("remplissez les champs");
-            //    BadTextBox(this.dialog);
-            //}
-            return true;
-        }
-
+        //Function for MD5 and encode password
         public String EncodeToMd5(String myString)
         {
             String md5Hash = null;
@@ -162,6 +135,7 @@ namespace BlackJack.ViewModel
             return md5Hash;
         }
 
+        // Function connect with call api
         public async void Connect(String json)
         {
             using (var client = new HttpClient())
@@ -173,26 +147,21 @@ namespace BlackJack.ViewModel
               
                 if (response.IsSuccessStatusCode)
                 {
-                    String _response =  response.Content.ReadAsStringAsync().Result;
-
-                    
-                    this.api = new Api();
-                    this.api = JsonConvert.DeserializeObject<Api>(_response);
-
+                    String _response =  response.Content.ReadAsStringAsync().Result;      
+                    this.Api = new Api();
+                    this.Api = JsonConvert.DeserializeObject<Api>(_response);
                     Debug.WriteLine(_response);
-                    Debug.WriteLine(this.api.user.stack);
-
-                    
-                   
-                    currentFrame.Navigate(typeof(ListTable),this.api);
-
+                    Debug.WriteLine(this.Api.user.stack);
+                    currentFrame.Navigate(typeof(ListTable),this.Api);
                 }
             }
         }
 
+        // Function for alert
         public async void BadTextBox(MessageDialog dialog)
         {
             await dialog.ShowAsync();
         }
+        #endregion
     }
 }

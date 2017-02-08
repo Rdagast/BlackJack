@@ -25,5 +25,10 @@ namespace DataModel
             this.access_token = null;
             this.refresh_token = null;
         }
+
+        ~Token()
+        {
+
+        }
     }
 }

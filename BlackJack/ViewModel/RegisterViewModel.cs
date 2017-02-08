@@ -1,16 +1,10 @@
-﻿using BlackJack;
-using BlackJack.View;
-using DataModel;
-using Exo4.ViewModel;
+﻿using DataModel;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -20,8 +14,14 @@ namespace BlackJack.ViewModel
 {
     public class RegisterViewModel : BaseViewModel
     {
+        #region Properties
+        // Current Window
         Frame currentFrame { get { return Window.Current.Content as Frame; } }
+
+        // Variable for the alert
         MessageDialog dialog = new MessageDialog(" ");
+
+
         private String _userName;
         public String UserName
         {
@@ -31,6 +31,7 @@ namespace BlackJack.ViewModel
                 SetProperty<String>(ref this._userName, value);
             }
         }
+
         private String _firstName;
         public String FirstName
         {
@@ -42,7 +43,6 @@ namespace BlackJack.ViewModel
         }
 
         private String _lastName;
-
         public String LastName
         {
             get { return _lastName; }
@@ -53,7 +53,6 @@ namespace BlackJack.ViewModel
         }
 
         private String _email;
-
         public String Email
         {
             get { return _email; }
@@ -64,7 +63,6 @@ namespace BlackJack.ViewModel
         }
 
         private String _password;
-
         public String Password
         {
             get { return _password; }
@@ -84,73 +82,55 @@ namespace BlackJack.ViewModel
                 SetProperty<String>(ref this._rPassword, value);
             }
         }
-      
-        public RegisterViewModel()
-        {
-            
-        }
+        #endregion
+        #region Command
+        // Command Register
         private ICommand registerCommand;
         public ICommand RegisterCommand
         {
             get
             {
-                if (registerCommand == null) {
-                    registerCommand = registerCommand ?? (registerCommand = new RelayCommand(() => { Register(); }, CanRegister));
+                if (registerCommand == null)
+                {
+                    registerCommand = registerCommand ?? (registerCommand = new RelayCommand(p => { Register(); }));
                 }
                 return registerCommand;
             }
         }
-        public bool CanRegister()
-        {
-            //bool result = false;
-            //if (_password == _rPassword)
-            //{
-            //    if(_email != null)
-            //    {
-            //       bool response = IsEmail(_email);
-            //       if (response == true)
-            //        {
-            //            result = true;
-            //        }
-            //        else
-            //        {
-            //            this.dialog = new MessageDialog("The email must be a valid email address");
-            //            BadTextBox(this.dialog);
-            //        }
-            //    }
-            //    result = true; 
-            //}
-            //else
-            //{
-            //    this.dialog = new MessageDialog("Password and repeat password must be identic");
-            //    BadTextBox(this.dialog);
-            //}
-            return true;
-        }
+        #endregion
+        #region Function
+        // Function for alert
         public async void BadTextBox(MessageDialog dialog)
         {
             await dialog.ShowAsync();
         }
+
+        /*
+         * Function Register with: 
+         * Call api
+         * check fields
+         * Convert fields to json
+         */
         public void Register()
         {
-            if (_password == _rPassword)
+            if (Password == RPassword)
             {
-                if (_email != null)
+                if (this.Email != null)
                 {
-                    bool response = IsEmail(_email);
+                    bool response = IsEmail(this.Email);
                     if (response == true)
                     {
                         User user = new User();
-                        user.username = this._userName;
-                        user.firstname = this._firstName;
-                        user.lastname = this._lastName;
-                        user.email = this._email;
+                        user.username = this.UserName;
+                        user.firstname = this.FirstName;
+                        user.lastname = this.LastName;
+                        user.email = this.Email;
                         user.password = this.Password;
 
                         string json = JsonConvert.SerializeObject(user);
                         json = "{ \"user\" : " + json + " } ";
-                        Debug.WriteLine(json);
-                        CallApi(json);
+                        //Debug.WriteLine(json);
+                        RegisterApi(json);
                     }
                     else
                     {
@@ -171,7 +151,9 @@ namespace BlackJack.ViewModel
                 BadTextBox(this.dialog);
             }
         }
-        public async void CallApi(String json)
+
+        // Send Register fields to api 
+        public async void RegisterApi(String json)
         {
             using (var client = new HttpClient())
             {
@@ -186,10 +168,11 @@ namespace BlackJack.ViewModel
                 }
             }
         }
+        // Function check if email is valid
         public bool IsEmail(string _email)
         {
-                return Regex.IsMatch(_email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+            return Regex.IsMatch(_email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
-
+        #endregion
     }
 }

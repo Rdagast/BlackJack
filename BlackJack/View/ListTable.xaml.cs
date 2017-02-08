@@ -30,11 +30,8 @@ namespace BlackJack.View
         public ListTable()
         {
             this.InitializeComponent();
-            
-           
-       
-        
         }
+        // Function for received the parameter in this Event
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ListTableViewModel = new ListTableViewModel((Api)e.Parameter);
