@@ -1,4 +1,5 @@
-﻿using DataModel;
+﻿using BlackJack.View;
+using DataModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -157,7 +158,7 @@ namespace BlackJack.ViewModel
                 Debug.WriteLine(res);
                 if (response.IsSuccessStatusCode)
                 {
-
+                    currentFrame.Navigate(typeof(GameView), this.Api);
                 }
             }
         }

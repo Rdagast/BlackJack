@@ -1,5 +1,13 @@
 ﻿using BlackJack.ViewModel;
 using DataModel;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -12,6 +20,7 @@ namespace BlackJack.View
     /// </summary>
     public sealed partial class GameView : Page
     {
+        public Api Parameter;
         public GameView()
         {
             this.InitializeComponent();

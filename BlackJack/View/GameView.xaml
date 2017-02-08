@@ -8,9 +8,9 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="SubmitBet" Content="miser" HorizontalAlignment="Left"  VerticalAlignment="top" Command="{Binding BetCommand}"/>
-        <Button x:Name="carte suivante" Content="nouvelle carte" HorizontalAlignment="center"  VerticalAlignment="Center" Command="{Binding NextCardCommand}"/>
-        <Button x:Name="stop" Content="stop" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding StopGameCommand}"/>
+        <Button  Content="miser" HorizontalAlignment="Left"  VerticalAlignment="top" Command="{Binding BetCommand}"/>
+        <Button  Content="nouvelle carte" HorizontalAlignment="center"  VerticalAlignment="Center" Command="{Binding NextCardCommand}"/>
+        <Button  Content="stop" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding StopGameCommand}"/>
         <Slider Name="miser" HorizontalAlignment="Left"  Value="{Binding Path= MyUser.Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" VerticalAlignment="Center"/>
     </Grid>
 </Page>
