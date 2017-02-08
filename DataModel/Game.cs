@@ -9,6 +9,7 @@ namespace DataModel
     public class Game
     {
         public List<Deck> Decks { get; set; }
+        public User Winner { get; set; }
         //public List<User> Players { get; set; }
         public bool IsStop { get; set; }
 
