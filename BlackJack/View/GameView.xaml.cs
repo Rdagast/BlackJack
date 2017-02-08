@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlackJack.ViewModel;
+using DataModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +24,7 @@ namespace BlackJack.View
     /// </summary>
     public sealed partial class GameView : Page
     {
+        public Api Parameter;
         public GameView()
         {
             this.InitializeComponent();
