@@ -9,47 +9,27 @@ namespace BlackJack
 {
     public class RelayCommand : ICommand
     {
-        readonly Func<bool> _canExecute = null;
-        readonly Action _execute = null;
-
+        private Action<object> execute;
+        private Func<object, bool> canExecute;
 
         public event EventHandler CanExecuteChanged;
-
-        public RelayCommand(Action execute)
-            : this(execute, null)
+      
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public bool CanExecute(object parameter)
         {
-           if (execute == null)
-           {
-               throw new ArgumentNullException("execute");
-           }
-
-           if (canExecute == null)
-           {
-               throw new ArgumentNullException("canExecute");
-           }
-            _execute = execute;
-            _canExecute = canExecute;
+            return this.canExecute == null || this.canExecute(parameter);
         }
 
-        public void OnCanExecuteChanged()
+        public void Execute(object parameter)
         {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        public Boolean CanExecute(Object parameter)
-        {
-            return _canExecute == null ? true : _canExecute();
-        }
-
-        public void Execute(Object parameter)
-        {
-
-            _execute();
+            this.execute(parameter);
         }
     }
+
 }
+

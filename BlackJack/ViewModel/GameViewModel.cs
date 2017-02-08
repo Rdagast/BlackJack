@@ -1,6 +1,5 @@
 ﻿using BlackJack.View;
 using DataModel;
-using Exo4.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -12,21 +12,37 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <ListView>
-                <ListViewItem Margin="0,10,0,0">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="16" >
-                                        <Run Text="{Binding Path=ListTable[0].Seats_available}" />
-                                        <!--<Run Text="{Binding Comments[0].Author.Lastname}" />-->
-                            </TextBlock>
-                            <TextBlock Text=" - " FontSize="12" Margin="2,0,2,0" />
-                            <TextBlock Text="{Binding ListTable[0].Created_at}" FontSize="16" />
-                        </StackPanel>
-                        <!--<TextBlock TextWrapping="Wrap" Text="{Binding Comments[0].Content}" />-->
-                    </StackPanel>
-                </ListViewItem>
-            </ListView>
+            <StackPanel Orientation="Vertical">
+                <Button Content="Logout" Command="{Binding LogoutCommand}" />
+                <ListView x:Name="TableList" ItemsSource="{Binding ListTable}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Assets/Images/fauteuil.png"/>
+                                <TextBlock>
+                                
+                                    <Run Text="Table:"/>
+                                    <Run Text="{Binding Id}"/>
+                                    <Run Text="Places maximum :"/>
+                                    <Run Text="{Binding Max_seat}"/>
+                                    <Run Text="Places libres :"/>
+                                    <Run Text="{Binding Seats_available}"/>
+                                    <Run Text="Mise Minimum"/>
+                                    <Run Text="{Binding Min_bet}"/>
+
+                                </TextBlock>
+                                <Button x:Name="Button" Content="Sit on table" Command="{Binding ElementName=TableList, Path=DataContext.SitOnTable}" CommandParameter="{Binding Id}"/>
+
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+            
+                
+           
+           
         </Grid>
     </Grid>
 </Page>

@@ -19,7 +19,10 @@ namespace DataModel
             user = new User();
             this.token = new Token();
         }
-        
-       
+
+        ~Api()
+        {
+
+        }
     }
 }
