@@ -45,18 +45,13 @@ namespace DataModel
         public String secret { get; set; }
 
 
-        public List<List<Card>> MyCards { get; set; }
-        public Double Bet { get; set; }
-
-
-
-
-        public Double _bet { get; set; }
-
-        public List<List<Card>> _listCards { get; set; }
-        public Double _assurance { get; set; }
-
+        //public List<List<Card>> MyCards { get; set; }
+        //public List<Double> Bets { get; set; }
         
+        public Double Assurance { get; set; }
+        public List<UserHand> UserHands { get; set; }
+
+
 
         //public User()
         //{
@@ -75,9 +70,10 @@ namespace DataModel
             this.stack = 0;
             this._isConnected = 0;
             this._lastRefill = new DateTime();
-            this.Bet = 0;
-            this.MyCards = new List<List<Card>>();
-            this.MyCards.Add(new List<Card>());
+            //this.Bets = new List<Double>();
+            //this.MyCards = new List<List<Card>>();
+            //this.MyCards.Add(new List<Card>());
+            this.Assurance = 0;
         }
 
         ~User()

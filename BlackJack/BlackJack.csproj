@@ -111,9 +111,6 @@
     <Compile Include="View\ListTable.xaml.cs">
       <DependentUpon>ListTable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PlayAgain.xaml.cs">
-      <DependentUpon>PlayAgain.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
@@ -151,10 +148,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ListTable.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\PlayAgain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -117,6 +117,7 @@
     <Compile Include="Table.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserHand.cs" />
     <EmbeddedResource Include="Properties\DataModel.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
