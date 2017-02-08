@@ -84,11 +84,11 @@ namespace BlackJack.ViewModel
 
         public void BankPlay()
         {
-            foreach (var item in GetScore(Bank))
+            foreach (var item in Bank.UserHands)
             {
                 // Bank don't want to have more than 21 with the next card
-                if (item <= 16)
-                    GetCard(Bank.UserHands[0]);
+                if (item.Value <= 16)
+                    GetCard(item);
             }
         }
 
@@ -144,7 +144,7 @@ namespace BlackJack.ViewModel
                         MyGame.Winner = MyUser;
                         winnerHand = playerItem;
                     }
-                }                 
+                }
             }
             foreach (var bankItem in Bank.UserHands)
             {
@@ -167,14 +167,14 @@ namespace BlackJack.ViewModel
 
         public void EndGame(UserHand winnerHand)
         {
-            if(MyGame.Winner == MyUser)
+            if (MyGame.Winner == MyUser)
             {
                 UpdateStack(winnerHand.Bet * 2.5);
                 this.dialog = new MessageDialog("win");
                 BadTextBox(this.dialog);
                 currentFrame.Navigate(typeof(GameView), null);
             }
-            else if(MyGame.Winner == Bank)
+            else if (MyGame.Winner == Bank)
             {
                 UpdateStack(-winnerHand.Bet);
                 this.dialog = new MessageDialog("loose");
@@ -184,21 +184,19 @@ namespace BlackJack.ViewModel
         }
 
 
-        public List<int> GetScore(User user)
+        public void GetScore(User user)
         {
-            List<int> scoreList = new List<int>();
-            foreach (List<Card> listCard in user.MyCards)
+            foreach (var hand in user.UserHands)
             {
-                int userScore = 0;
-
-                foreach (Card card in listCard)
+                foreach (var card in hand.Cards)
                 {
-                    userScore += card.Value;
+                    hand.Value += card.Value;
                 }
-                scoreList.Add(userScore);
+
             }
-            return scoreList;
         }
+
+
 
         public async void BadTextBox(MessageDialog dialog)
         {
@@ -260,15 +258,10 @@ namespace BlackJack.ViewModel
 
         public void Split()
         {
-            if (this.MyUser.MyCards.Count > 1)
+            if (this.MyUser.UserHands[0].Cards.Count > 1)
             {
-                //create new hand for player with and split card
-                this.MyUser.MyCards.Add(new List<Card>());
-                this.MyUser.MyCards[this.MyUser.MyCards.Count - 1].Add(this.MyUser.MyCards[this.MyUser.MyCards.Count - 2][this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].Count - 1]);
-                this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].RemoveAt(this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].Count);
-
-                //create new bet for the new hand
-                this.MyUser.Bets.Add(this.MyUser.Bets[0]);
+                this.MyUser.UserHands.Add(new UserHand(this.MyUser.UserHands[0].Cards[1], this.MyUser.UserHands[0].Bet));
+                this.MyUser.UserHands[0].Cards.RemoveAt(1);
             }
         }
         #endregion
@@ -289,9 +282,9 @@ namespace BlackJack.ViewModel
 
         public void Assurance()
         {
-            if (Bank.MyCards[0][0].Value == 10)
+            if (Bank.UserHands[0].Value == 10 || Bank.UserHands[0].Value == 9 || Bank.UserHands[0].Value == 11)
             {
-                this.MyUser.Assurance = this.MyUser.Bets[0] / 2;
+                this.MyUser.Assurance = this.MyUser.UserHands[0].Bet / 2;
             }
         }
         #endregion
@@ -310,7 +303,7 @@ namespace BlackJack.ViewModel
 
         public void DoubleBet()
         {
-            this.MyUser
+
         }
         #region DoubleCommand
 

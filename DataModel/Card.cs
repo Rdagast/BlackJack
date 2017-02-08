@@ -14,21 +14,16 @@ namespace DataModel
         public bool IsCutCard { get; set; }
 
 
-        public Card(Color color, Name name)
+        public Card(Color color, Name name, int value)
         {
             this.Type = color;
             this.Name = name;
-            this.Value = CalcValueCard();
+            this.Value = value;
             this.IsCutCard = false;
         }
         public Card()
         {
             this.IsCutCard = true;
-        }
-
-        public int CalcValueCard()
-        {
-            return 0;
         }
     }
 }

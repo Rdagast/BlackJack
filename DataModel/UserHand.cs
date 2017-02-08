@@ -20,5 +20,13 @@ namespace DataModel
             this.Value = 0;
             this.IsFinish = false;
         }
+        public UserHand(Card card,Double bet)
+        {
+            this.Cards = new List<Card>();
+            this.Cards.Add(card);
+            this.Bet = bet;
+            this.Value = 0;
+            this.IsFinish = false;
+        }
     }
 }
