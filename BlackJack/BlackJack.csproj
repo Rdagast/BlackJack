@@ -105,8 +105,14 @@
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\ListTableViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="View\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ListTable.xaml.cs">
       <DependentUpon>ListTable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlayAgain.xaml.cs">
+      <DependentUpon>PlayAgain.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
@@ -140,7 +146,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ListTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlayAgain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
