@@ -28,6 +28,7 @@ namespace DataModel
 
         public int CalcValueCard()
         {
+
             return 0;
         }
     }

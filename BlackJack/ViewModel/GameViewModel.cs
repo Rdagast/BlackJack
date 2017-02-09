@@ -58,7 +58,7 @@ namespace BlackJack.ViewModel
             {
                 if (newCardCommand == null)
                 {
-                    newCardCommand = newCardCommand ?? (newCardCommand = new RelayCommand(() => { DistributeCard(); }));
+                    newCardCommand = newCardCommand ?? (newCardCommand = new RelayCommand(p => { DistributeCard(); }));
                 }
                 return newCardCommand;
             }
@@ -232,7 +232,7 @@ namespace BlackJack.ViewModel
             {
                 if (stopGameCommand == null)
                 {
-                    stopGameCommand = stopGameCommand ?? (stopGameCommand = new RelayCommand(() => { StopGame(); }));
+                    stopGameCommand = stopGameCommand ?? (stopGameCommand = new RelayCommand(p => { StopGame(); }));
                 }
                 return stopGameCommand;
             }
@@ -245,73 +245,73 @@ namespace BlackJack.ViewModel
         #endregion
 
         #region SplitComand
-        private ICommand splitCommand;
-        public ICommand SplitCommand
-        {
-            get
-            {
-                if (splitCommand == null)
-                {
-                    splitCommand = splitCommand ?? (splitCommand = new RelayCommand(() => { Split(); }));
-                }
-                return splitCommand;
-            }
-        }
+        //private ICommand splitCommand;
+        //public ICommand SplitCommand
+        //{
+        //    get
+        //    {
+        //        if (splitCommand == null)
+        //        {
+        //            splitCommand = splitCommand ?? (splitCommand = new RelayCommand(p => { Split(); }));
+        //        }
+        //        return splitCommand;
+        //    }
+        //}
 
-        public void Split()
-        {
-            if (this.MyUser.MyCards.Count > 1)
-            {
-                //create new hand for player with and split card
-                this.MyUser.MyCards.Add(new List<Card>());
-                this.MyUser.MyCards[this.MyUser.MyCards.Count - 1].Add(this.MyUser.MyCards[this.MyUser.MyCards.Count - 2][this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].Count - 1]);
-                this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].RemoveAt(this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].Count);
+        //public void Split()
+        //{
+        //    if (this.MyUser.MyCards.Count > 1)
+        //    {
+        //        //create new hand for player with and split card
+        //        this.MyUser.MyCards.Add(new List<Card>());
+        //        this.MyUser.MyCards[this.MyUser.MyCards.Count - 1].Add(this.MyUser.MyCards[this.MyUser.MyCards.Count - 2][this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].Count - 1]);
+        //        this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].RemoveAt(this.MyUser.MyCards[this.MyUser.MyCards.Count - 2].Count);
 
-                //create new bet for the new hand
-                this.MyUser.Bets.Add(this.MyUser.Bets[0]);
-            }
-        }
+        //        //create new bet for the new hand
+        //        this.MyUser.Bets.Add(this.MyUser.Bets[0]);
+        //    }
+        //}
         #endregion
 
         #region AssuranceCommand
-        private ICommand assuranceCommand;
-        public ICommand AssuranceCommand
-        {
-            get
-            {
-                if (assuranceCommand == null)
-                {
-                    assuranceCommand = assuranceCommand ?? (assuranceCommand = new RelayCommand(() => { Assurance(); }));
-                }
-                return assuranceCommand;
-            }
-        }
+        //private ICommand assuranceCommand;
+        //public ICommand AssuranceCommand
+        //{
+        //    get
+        //    {
+        //        if (assuranceCommand == null)
+        //        {
+        //            assuranceCommand = assuranceCommand ?? (assuranceCommand = new RelayCommand(p => { Assurance(); }));
+        //        }
+        //        return assuranceCommand;
+        //    }
+        //}
 
-        public void Assurance()
-        {
-            if (Bank.MyCards[0][0].Value == 10)
-            {
-                this.MyUser.Assurance = this.MyUser.Bets[0] / 2;
-            }
-        }
+        //public void Assurance()
+        //{
+        //    if (Bank.MyCards[0][0].Value == 10)
+        //    {
+        //        this.MyUser.Assurance = this.MyUser.Bets[0] / 2;
+        //    }
+        //}
         #endregion
-        private ICommand doubleCommand;
-        public ICommand DoubleCommand
-        {
-            get
-            {
-                if (doubleCommand == null)
-                {
-                    doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(() => { DoubleBet(); }));
-                }
-                return doubleCommand;
-            }
-        }
+        //private ICommand doubleCommand;
+        //public ICommand DoubleCommand
+        //{
+        //    get
+        //    {
+        //        if (doubleCommand == null)
+        //        {
+        //            doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(p => { DoubleBet(); }));
+        //        }
+        //        return doubleCommand;
+        //    }
+        //}
 
-        public void DoubleBet()
-        {
-            this.MyUser
-        }
+        //public void DoubleBet()
+        //{
+        //    this.MyUser
+        //}
         #region DoubleCommand
 
         #endregion
