@@ -14,16 +14,50 @@ namespace DataModel
         public bool IsCutCard { get; set; }
 
 
-        public Card(Color color, Name name, int value)
+        public Card(Color color, Name name)
         {
             this.Type = color;
             this.Name = name;
-            this.Value = value;
+            this.Value = CalcValueCard();
             this.IsCutCard = false;
         }
         public Card()
         {
             this.IsCutCard = true;
+        }
+
+        public int CalcValueCard()
+        {
+            int valeurTotal = 0;
+
+            
+                switch (Name)
+                {
+                    case Name.TWO: valeurTotal += 2; break;
+                    case Name.THREE: valeurTotal += 3; break;
+                    case Name.FOUR: valeurTotal += 4; break;
+                    case Name.FIVE: valeurTotal += 5; break;
+                    case Name.SIX: valeurTotal += 6; break;
+                    case Name.SEVEN: valeurTotal += 7; break;
+                    case Name.EIGHT: valeurTotal += 8; break;
+                    case Name.NINE: valeurTotal += 9; break;
+                    case Name.TEN: valeurTotal += 10; break;
+                    case Name.JACK: valeurTotal += 10; break;
+                    case Name.QUEEN: valeurTotal += 10; break;
+                    case Name.KING: valeurTotal += 10; break;
+                    case Name.ACE:
+                        if (valeurTotal > 10)
+                        {
+                            valeurTotal += 1;
+                        }
+                        else
+                        {
+                            valeurTotal += 11;
+                        }
+                        break;
+                }
+            
+            return valeurTotal;
         }
     }
 }
