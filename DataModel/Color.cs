@@ -8,9 +8,9 @@ namespace DataModel
 {
     public enum Color
     {
-        Diamonds, 
-        Clubs,
-        Spades,
-        Hearts
+        DIAMONDS, 
+        CLUBS,
+        SPADES,
+        HEARTS
     }
 }

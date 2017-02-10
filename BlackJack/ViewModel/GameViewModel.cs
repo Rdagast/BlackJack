@@ -20,8 +20,21 @@ namespace BlackJack.ViewModel
         #region Properties
         public Game MyGame { get; set; }
         public Api api { get; set; }
-        public User MyUser { get; set; }
-        public User Bank { get; set; }
+
+        private User _myUser;
+        public User MyUser
+        {
+            get { return _myUser; }
+            set { SetProperty(ref _myUser, value); }
+        }
+
+        private User _bank;
+        public User Bank
+        {
+            get { return _bank; }
+            set { SetProperty(ref _bank, value); }
+        }
+
         Frame currentFrame { get { return Window.Current.Content as Frame; } }
         private int _indexList;
 
@@ -96,7 +109,7 @@ namespace BlackJack.ViewModel
         {
             // distribute card
             userHand.Cards.Add(this.MyGame.Decks[0].Cards[0]);
-            MyGame.Decks.RemoveAt(0);
+            MyGame.Decks[0].Cards.RemoveAt(0);
         }
 
         public bool IsGameFinish()
@@ -288,43 +301,45 @@ namespace BlackJack.ViewModel
             }
         }
         #endregion
-        //private ICommand doubleCommand;
-        //public ICommand DoubleCommand
-        //{
-        //    get
-        //    {
-        //        if (doubleCommand == null)
-        //        {
-        //            doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(p => { DoubleBet(); }));
-        //        }
-        //        return doubleCommand;
-        //    }
-        //}
+
+        #region DoubleCommand
+        private ICommand doubleCommand;
+        public ICommand DoubleCommand
+        {
+            get
+            {
+                if (doubleCommand == null)
+                {
+                    doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(p => { DoubleBet(); }));
+                }
+                return doubleCommand;
+            }
+        }
 
         public void DoubleBet()
         {
 
         }
-        #region DoubleCommand
+
 
         #endregion
 
-        //private ICommand betCommand;
-        //public ICommand BetCommand
-        //{
-        //    get
-        //    {
-        //        if (betCommand == null)
-        //        {
-        //            betCommand = betCommand ?? (betCommand = new RelayCommand(() => { Bet(); }));
-        //        }
-        //        return betCommand;
-        //    }
-        //}
+        private ICommand betcommand;
+        public ICommand Betcommand
+        {
+            get
+            {
+                if (betcommand == null)
+                {
+                    betcommand = betcommand ?? (betcommand = new RelayCommand(p => { Bet(); }));
+                }
+                return betcommand;
+            }
+        }
 
-        //public void Bet()
-        //{
+        public void Bet()
+        {
 
-        //}
+        }
     }
 }
