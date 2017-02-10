@@ -17,7 +17,9 @@ namespace DataModel
         {
             for (int i = 0; i < 6; i++)
             {
-                this.Decks.Add(new Deck());
+                Deck deck = new Deck();
+                deck.CreateDeck();
+                this.Decks.Add(deck);
                 foreach (Deck d in Decks)
                 {
                     d.ShuffleList();

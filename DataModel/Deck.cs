@@ -12,7 +12,11 @@ namespace DataModel
 
         public Deck()
         {
-            //Create 54 cards for a deck
+            this.Cards = new List<Card>();
+           
+        }
+        public void CreateDeck()
+        {
             foreach (Color color in Enum.GetValues(typeof(Color)))
             {
                 foreach (Name name in Enum.GetValues(typeof(Name)))
