@@ -70,6 +70,7 @@ namespace DataModel
             this.stack = 0;
             this._isConnected = 0;
             this._lastRefill = new DateTime();
+            this.UserHands = new List<UserHand>();
             //this.Bets = new List<Double>();
             //this.MyCards = new List<List<Card>>();
             //this.MyCards.Add(new List<Card>());
