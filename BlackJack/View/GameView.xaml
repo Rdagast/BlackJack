@@ -6,11 +6,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    
+    
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <!--<Button  Content="miser" HorizontalAlignment="Left"  VerticalAlignment="top" Command="{Binding Path=BetCommand}"/>-->
+        <Button  Content="miser" HorizontalAlignment="Left"  VerticalAlignment="top" Command="{Binding Path=BetCommand}" Margin="10,358,0,0"/>
         <Button  Content="nouvelle carte" HorizontalAlignment="center"  VerticalAlignment="Center" Command="{Binding Path=NewCardCommand}"/>
         <Button  Content="stop" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding Path=StopGameCommand}"/>
-        <Slider Name="miser" HorizontalAlignment="Left"  Value="{Binding Path= MyUser.Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" VerticalAlignment="Center"/>
+        <Slider Name="miser" HorizontalAlignment="Left"  Value="{Binding Path= MyUser.UserHands.Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Vertical" Width="50" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <ListView ItemsSource="{Binding Bank.UserHands[0].Cards}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding PictureUrl}" MaxHeight="73" MaxWidth="50" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Width="50"  VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ListView ItemsSource="{Binding Path= MyUser.UserHands[0].Cards}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding PictureUrl}" MaxHeight="73" MaxWidth="50" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>

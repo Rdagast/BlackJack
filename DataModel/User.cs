@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace DataModel
         //public List<Double> Bets { get; set; }
         
         public Double Assurance { get; set; }
-        public List<UserHand> UserHands { get; set; }
+        public ObservableCollection<UserHand> UserHands { get; set; }
 
 
 
@@ -70,10 +71,7 @@ namespace DataModel
             this.stack = 0;
             this._isConnected = 0;
             this._lastRefill = new DateTime();
-            this.UserHands = new List<UserHand>();
-            //this.Bets = new List<Double>();
-            //this.MyCards = new List<List<Card>>();
-            //this.MyCards.Add(new List<Card>());
+            this.UserHands = new ObservableCollection<UserHand>();
             this.Assurance = 0;
         }
 
