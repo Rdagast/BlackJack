@@ -14,6 +14,10 @@ namespace DataModel
         public User user { get; set; }
         [JsonProperty("tokens")]
         public Token token { get; set; }
+
+        public int Status { get; set; }
+
+        public String Message { get; set; }
         public Api()
         {
             user = new User();

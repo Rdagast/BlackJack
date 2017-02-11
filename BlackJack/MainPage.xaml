@@ -24,14 +24,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                <TextBox  Name="email"  PlaceholderText="Email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"/>
-                <PasswordBox Name="password" PlaceholderText="Password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
-                <Button Style="{StaticResource ButtonStyle}" Name="submit" Content="Envoyer" Command="{Binding ConnexionCommand}"/>
-                <Button Style="{StaticResource ButtonStyle}"  Content="register" Click="go_register"/>
+        
+            <StackPanel  VerticalAlignment="Center">
+                <TextBox  Name="email"  Width="300" PlaceholderText="Email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"/>
+                <PasswordBox Name="password" Width="300" PlaceholderText="Password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"/>
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button Width="100" Style="{StaticResource ButtonStyle}" Name="submit" Content="Envoyer" Command="{Binding ConnexionCommand}"/>
+                <Button Width="100" Style="{StaticResource ButtonStyle}"  Content="register" Click="go_register"/>
+           
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        
 
 
     </Grid>

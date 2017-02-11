@@ -152,16 +152,56 @@ namespace BlackJack.ViewModel
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._api.token.access_token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.Email + "/table/" + id + "/sit");
-                Debug.WriteLine(response);
-                string res = response.Content.ReadAsStringAsync().Result;
-                Debug.WriteLine(res);
+                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.email + "/table/" + id + "/sit");
+                //Debug.WriteLine(response);
+                string res = await response.Content.ReadAsStringAsync();
+                //Debug.WriteLine(res);
+
+                
+                
                 if (response.IsSuccessStatusCode)
                 {
                     currentFrame.Navigate(typeof(GameView), this.Api);
                 }
+                else if (response.IsSuccessStatusCode != true)
+                {
+                    ErrorApi erAp = new ErrorApi();
+                    erAp = JsonConvert.DeserializeObject<ErrorApi>(res);
+                    if(erAp.Error_code == "user_already_on_table")
+                    {
+                        LeaveTable(id);
+                       
+
+                    }
+                    
+                }
+            }
+
+        }
+        public async void LeaveTable(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://demo.comte.re");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._api.token.access_token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.email + "/table/" + id + "/leave");
+                string str = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine(str);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    SitOnTableApi(id);
+                }
             }
         }
+
+
+
+
         //Command for logout
         private RelayCommand _logoutCommand;
         public ICommand LogoutCommand
@@ -188,7 +228,7 @@ namespace BlackJack.ViewModel
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://demo.comte.re");
-                var json = JsonConvert.SerializeObject(this.Api.user.Email);
+                var json = JsonConvert.SerializeObject(this.Api.user.email);
                 json = "{\"email\":" + json + "}";
                 var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
 
