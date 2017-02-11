@@ -83,9 +83,9 @@ namespace BlackJack.ViewModel
                 if(_email != String.Empty && _password != String.Empty)
                 {
                     User user = new User();
-                    user.email = this._email;
-                    user.password = this._password;
-                    user.secret = EncodeToMd5(_password);
+                    user.Email = this._email;
+                    user.Password = this._password;
+                    user.Secret = EncodeToMd5(_password);
 
                     JsonSerializerSettings settings = new JsonSerializerSettings();
                     settings.NullValueHandling = NullValueHandling.Ignore;
@@ -151,7 +151,7 @@ namespace BlackJack.ViewModel
                     this.Api = new Api();
                     this.Api = JsonConvert.DeserializeObject<Api>(_response);
                     Debug.WriteLine(_response);
-                    Debug.WriteLine(this.Api.user.stack);
+                    Debug.WriteLine(this.Api.user.Stack);
                     currentFrame.Navigate(typeof(ListTable),this.Api);
                 }
             }

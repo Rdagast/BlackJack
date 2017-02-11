@@ -225,7 +225,7 @@ namespace BlackJack.ViewModel
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync("user/" + MyUser.email + "/stack/" + earnings);
+                HttpResponseMessage response = await client.GetAsync("user/" + MyUser.Email + "/stack/" + earnings);
                 if (response.IsSuccessStatusCode)
                 {
                     string res = await response.Content.ReadAsStringAsync();

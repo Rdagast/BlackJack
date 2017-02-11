@@ -152,7 +152,7 @@ namespace BlackJack.ViewModel
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._api.token.access_token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.email + "/table/" + id + "/sit");
+                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.Email + "/table/" + id + "/sit");
                 Debug.WriteLine(response);
                 string res = response.Content.ReadAsStringAsync().Result;
                 Debug.WriteLine(res);
@@ -188,7 +188,7 @@ namespace BlackJack.ViewModel
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://demo.comte.re");
-                var json = JsonConvert.SerializeObject(this.Api.user.email);
+                var json = JsonConvert.SerializeObject(this.Api.user.Email);
                 json = "{\"email\":" + json + "}";
                 var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
 

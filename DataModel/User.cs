@@ -17,33 +17,33 @@ namespace DataModel
        
 
         [JsonProperty("id")]
-        public int id { get; set; }
+        public int Id { get; set; }
         [JsonProperty("username")]
-        public String username { get; set; }
+        public String UserName { get; set; }
         [JsonProperty("email")]
-        public String email { get; set; }
+        public String Email { get; set; }
         [JsonProperty("created_at")]
-        public DateTime created_at { get; set; }
+        public DateTime Created_at { get; set; }
 
         [JsonProperty("updated_at")]
-        public DateTime updated_at { get; set; }
+        public DateTime Updated_at { get; set; }
         [JsonProperty("firstname")]
-        public String firstname { get; set; }
+        public String FirstName { get; set; }
         [JsonProperty("lastname")]
-        public String lastname { get; set; }
+        public String Lastname { get; set; }
         [JsonProperty("stack")]
-        public Double stack { get; set; }
+        public Double Stack { get; set; }
 
         [JsonProperty("is_connected")]
-        public int _isConnected { get; set; }
+        public int IsConnected { get; set; }
 
         [JsonProperty("last_refill")]
-        public DateTime _lastRefill { get; set; }
+        public DateTime LastRefill { get; set; }
 
 
         [JsonProperty("password")]
-        public String password { get; set; }
-        public String secret { get; set; }
+        public String Password { get; set; }
+        public String Secret { get; set; }
 
 
         //public List<List<Card>> MyCards { get; set; }
@@ -61,16 +61,16 @@ namespace DataModel
         public User()
         {
             this.status = 0;
-            this.id = 0;
-            this.username = null;
-            this.email = null;
-            this.created_at = new DateTime();
-            this.updated_at = new DateTime();
-            this.firstname = null;
-            this.lastname = null;
-            this.stack = 0;
-            this._isConnected = 0;
-            this._lastRefill = new DateTime();
+            this.Id = 0;
+            this.UserName = null;
+            this.Email = null;
+            this.Created_at = new DateTime();
+            this.Updated_at = new DateTime();
+            this.FirstName = null;
+            this.Lastname = null;
+            this.Stack = 0;
+            this.IsConnected = 0;
+            this.LastRefill = new DateTime();
             this.UserHands = new ObservableCollection<UserHand>();
             this.Assurance = 0;
         }

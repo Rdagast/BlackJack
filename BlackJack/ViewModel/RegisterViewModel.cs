@@ -121,11 +121,11 @@ namespace BlackJack.ViewModel
                     if (response == true)
                     {
                         User user = new User();
-                        user.username = this.UserName;
-                        user.firstname = this.FirstName;
-                        user.lastname = this.LastName;
-                        user.email = this.Email;
-                        user.password = this.Password;
+                        user.UserName = this.UserName;
+                        user.FirstName = this.FirstName;
+                        user.Lastname = this.LastName;
+                        user.Email = this.Email;
+                        user.Password = this.Password;
 
                         string json = JsonConvert.SerializeObject(user);
                         json = "{ \"user\" : " + json + " } ";
