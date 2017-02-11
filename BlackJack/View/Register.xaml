@@ -6,21 +6,35 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Assets/Images/button.png"></ImageBrush>
+                </Setter.Value>
+            </Setter>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/Images/fond.png"></ImageBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <StackPanel Orientation="Vertical">
-                <TextBox PlaceholderText="username" Name="username" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=UserName, Mode=TwoWay}"></TextBox>
-                <TextBox PlaceholderText="firstname" Name="firstname" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=FirstName, Mode=TwoWay}"></TextBox>
-                <TextBox PlaceholderText="lastname" Name="lastname" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=LastName, Mode=TwoWay}"></TextBox>
-                <TextBox PlaceholderText="email" Name="email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"></TextBox>
-                <PasswordBox PlaceholderText="password" Name="password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"></PasswordBox>
-                <PasswordBox PlaceholderText="Repeate password" Name="rpassword" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=RPassword, Mode=TwoWay}"></PasswordBox>
-                <Button Content="Register" x:Name="Submit"  Command="{Binding Path =RegisterCommand}"/>
+       
+            <StackPanel VerticalAlignment="Center">
+                <TextBox Width="300" PlaceholderText="username" Name="username" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=UserName, Mode=TwoWay}"></TextBox>
+                <TextBox Width="300" PlaceholderText="firstname" Name="firstname" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=FirstName, Mode=TwoWay}"></TextBox>
+                <TextBox Width="300" PlaceholderText="lastname" Name="lastname" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=LastName, Mode=TwoWay}"></TextBox>
+                <TextBox Width="300" PlaceholderText="email" Name="email" Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Email, Mode=TwoWay}"></TextBox>
+                <PasswordBox Width="300" PlaceholderText="password" Name="password" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=Password, Mode=TwoWay}"></PasswordBox>
+                <PasswordBox Width="300" PlaceholderText="Repeate password" Name="rpassword" Password="{Binding UpdateSourceTrigger=PropertyChanged, Path=RPassword, Mode=TwoWay}"></PasswordBox>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Button  Style="{StaticResource ButtonStyle}" Content="Register" x:Name="Submit"  Command="{Binding Path =RegisterCommand}"/>
+                </StackPanel>
             </StackPanel>
-        </Grid>
+        
     </Grid>
 </Page>

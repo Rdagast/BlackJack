@@ -24,12 +24,14 @@ namespace BlackJack.View
         public GameView()
         {
             this.InitializeComponent();
+           
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             GameViewModel gameViewModel = new GameViewModel((Api)e.Parameter);
             this.DataContext = gameViewModel;
+
         }
     }
 }

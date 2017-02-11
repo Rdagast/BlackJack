@@ -18,7 +18,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="Assets/Images/fauteuil.png"/>
+                                <Image Source="/Assets/Images/fauteuil.png" MaxWidth="48" HorizontalAlignment="Left"/>
                                 <TextBlock>
                                 
                                     <Run Text="Table:"/>
