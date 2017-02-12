@@ -45,9 +45,6 @@ namespace DataModel
         public String Password { get; set; }
         public String Secret { get; set; }
 
-
-        //public List<List<Card>> MyCards { get; set; }
-        //public List<Double> Bets { get; set; }
         
         public Double Assurance { get; set; }
         public ObservableCollection<UserHand> UserHands { get; set; }
