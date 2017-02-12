@@ -372,7 +372,7 @@ namespace BlackJack.ViewModel
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.Nav.MyApi.token.access_token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync("/api/user/{" + MyUser.email + "}/stack/{" + earnings+"}");
+                HttpResponseMessage response = await client.GetAsync("/api/user/" + MyUser.email + "/stack/" + earnings);
                 Debug.WriteLine(response);
                 
             }
