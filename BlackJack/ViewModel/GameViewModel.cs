@@ -233,7 +233,7 @@ namespace BlackJack.ViewModel
 
                 if (response.IsSuccessStatusCode)
                 {
-                    this.dialog = new MessageDialog("Win assurance : " + MyUser.Assurance);
+                    this.dialog = new MessageDialog("vous etes sortie de la table bonne continuation");
                     BadTextBox(dialog);
                     currentFrame.Navigate(typeof(ListTable), this.Nav.MyApi);
                 }
