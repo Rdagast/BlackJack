@@ -161,6 +161,8 @@ namespace BlackJack.ViewModel
                 
                 if (response.IsSuccessStatusCode)
                 {
+                    Table currentTable = new Table();
+                    currentTable.Id = id;
                     currentFrame.Navigate(typeof(GameView), this.Api);
                 }
                 else if (response.IsSuccessStatusCode != true)
@@ -199,8 +201,47 @@ namespace BlackJack.ViewModel
             }
         }
 
+        private RelayCommand _refilltokens;
+        public ICommand RefillTokens
+        {
+            get
+            {
+                if (_refilltokens == null)
+                {
+                    _refilltokens = _refilltokens ?? (_refilltokens = new RelayCommand(p => { RefillTokensUser(); }));
+                }
+                return _refilltokens;
+            }
+        }
+        public async void RefillTokensUser()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://demo.comte.re");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(this.Api.token.token_type, this._api.token.access_token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.email + "/refill");
+                string str = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine(str);
 
 
+                if (response.IsSuccessStatusCode)
+                {
+                    this.Api = JsonConvert.DeserializeObject<Api>(str);
+                    this.dialog = new MessageDialog("Your refill is success, you now have" + this.Api.user.stack + "tokens");
+                    BadTextBox(this.dialog);
+                }else
+                {
+                    String res = response.Content.ReadAsStringAsync().Result;
+                    ErrorApi erAp = new ErrorApi();
+                    erAp = JsonConvert.DeserializeObject<ErrorApi>(res);
+                    this.dialog = new MessageDialog(erAp.Message);
+                    BadTextBox(this.dialog);
+                }
+            }
+        }
 
         //Command for logout
         private RelayCommand _logoutCommand;
