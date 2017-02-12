@@ -14,6 +14,7 @@
         <Grid Grid.Row="0">
             <StackPanel Orientation="Vertical">
                 <Button Content="Logout" Command="{Binding LogoutCommand}" />
+                <Button HorizontalAlignment="Right" Content="Refill" Command="{Binding RefillTokens}"/>
                 <ListView x:Name="TableList" ItemsSource="{Binding ListTable}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
