@@ -6,21 +6,55 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
+    <Page.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Assets/Images/button.png"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.Background>
+        <ImageBrush ImageSource="/Assets/Images/fond.png"></ImageBrush>
+    </Grid.Background>
+    <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="230" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
             <StackPanel Orientation="Vertical">
-                <Button Content="Logout" Command="{Binding LogoutCommand}" />
-                <Button HorizontalAlignment="Right" Content="Refill" Command="{Binding RefillTokens}"/>
-                <ListView x:Name="TableList" ItemsSource="{Binding ListTable}">
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Api.User.username}"/>
+                <Button Style="{StaticResource ButtonStyle}" Width="100" HorizontalAlignment="Left" Content="Refill" Command="{Binding RefillTokens}"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="White" >
+                           <Run Text="You have :"/>
+                           <Run Text="{Binding CurrentStack}"/>
+                           <Run Text="tokens"/>
+                </TextBlock>
+            </StackPanel>
+
+
+            
+           
+        </Grid>
+        <Grid Grid.Column="2">
+            <Button  Style="{StaticResource ButtonStyle}" Width="100" HorizontalAlignment="Right" Content="Logout" Command="{Binding LogoutCommand}" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="top">
+                <ListView   HorizontalAlignment="Center" x:Name="TableList" ItemsSource="{Binding ListTable}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/Images/fauteuil.png" MaxWidth="48" HorizontalAlignment="Left"/>
-                                <TextBlock>
+                                <!--<Image Source="/Assets/Images/fauteuil.png" MaxWidth="48" HorizontalAlignment="Left"/>-->
+                                <TextBlock Foreground="White">
                                 
                                     <Run Text="Table:"/>
                                     <Run Text="{Binding Id}"/>
@@ -32,7 +66,7 @@
                                     <Run Text="{Binding Min_bet}"/>
 
                                 </TextBlock>
-                                <Button x:Name="Button" Content="Sit on table" Command="{Binding ElementName=TableList, Path=DataContext.SitOnTable}" CommandParameter="{Binding Id}"/>
+                                <Button Style="{StaticResource ButtonStyle}" x:Name="Button" Content="Sit on table" Command="{Binding ElementName=TableList, Path=DataContext.SitOnTable}" CommandParameter="{Binding Id}"/>
 
                             </StackPanel>
 
@@ -40,10 +74,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
-            
-                
-           
-           
+
         </Grid>
+           
     </Grid>
 </Page>

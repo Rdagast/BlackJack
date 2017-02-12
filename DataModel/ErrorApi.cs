@@ -13,8 +13,8 @@ namespace DataModel
         public int Status { get; set; }
         [JsonProperty("error_code")]
         public String Error_code { get; set; }
-        [JsonProperty("error")]
-        public String Error { get; set; }
+        //[JsonProperty("error")]
+        //public String Error { get; set; }
         [JsonProperty("message")]
         public String  Message { get; set; }
     }

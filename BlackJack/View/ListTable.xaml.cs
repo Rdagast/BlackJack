@@ -39,6 +39,10 @@ namespace BlackJack.View
             this.DataContext = ListTableViewModel;
         }
 
+        private void TextBlock_ContextCanceled(UIElement sender, RoutedEventArgs args)
+        {
+
+        }
     }
 
 }
