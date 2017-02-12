@@ -161,7 +161,14 @@ namespace BlackJack.ViewModel
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    currentFrame.Navigate(typeof(GameView), this.Api);
+                    TableToGameNav navParam = null;
+                    foreach (var item in _listTable)
+                    {
+                        if(item.Id == id)
+                            navParam = new TableToGameNav(this.Api, item);
+                    }
+                     
+                    currentFrame.Navigate(typeof(GameView), navParam);
                 }
                 else if (response.IsSuccessStatusCode != true)
                 {

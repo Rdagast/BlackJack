@@ -20,7 +20,8 @@ namespace BlackJack.ViewModel
     {
         #region Properties
         public Game MyGame { get; set; }
-        public Api Api { get; set; }
+        public Table GameTable { get; set; }
+        public TableToGameNav Nav { get; set; }
         public User MyUser { get; set; }
         public User Bank { get; set; }
         private Double _bet;
@@ -34,12 +35,13 @@ namespace BlackJack.ViewModel
         private MessageDialog dialog;
         #endregion
 
-        public GameViewModel(Api api)
+        public GameViewModel(ref TableToGameNav nav)
         {
-            this.Api = api;
+            this.Nav = nav;
             this.MyGame = new Game();
-            this.MyUser = this.Api.user;
+            this.MyUser = this.Nav.MyApi.user;
             this._indexList = 0;
+            this.GameTable = nav.GameTable;
 
             // guive a new hand
             this.MyUser.UserHands.Add(new UserHand());
@@ -237,8 +239,8 @@ namespace BlackJack.ViewModel
         public void GetCard(UserHand userHand)
         {
             // distribute card
-            userHand.Cards.Add(this.MyGame.Decks[0].Cards[0]);
-            MyGame.Decks[0].Cards.RemoveAt(0);
+            userHand.Cards.Add(this.GameTable.Decks[0].Cards[0]);
+            GameTable.Decks[0].Cards.RemoveAt(0);
         }
 
         public bool IsGameFinish()
@@ -337,7 +339,7 @@ namespace BlackJack.ViewModel
             var result = await dialog.ShowAsync();
 
             if ((int)result.Id == 0)
-                currentFrame.Navigate(typeof(GameView), this.Api);
+                currentFrame.Navigate(typeof(GameView), this.Nav);
         }
 
         public async void UpdateStack(Double earnings)
