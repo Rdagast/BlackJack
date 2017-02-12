@@ -41,13 +41,13 @@
         <StackPanel Grid.Row="1" Grid.Column="0">
             <Button Style="{StaticResource ButtonStyle}" Content="carte"  Command="{Binding Path=NewCardCommand}"/>
             <Button Style="{StaticResource ButtonStyle}" Content="stop"  Command="{Binding Path=StopGameCommand}"/>
-            <Slider Value="{Binding Path= MyUser.UserHands.Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" />
+            <Slider Value="{Binding Path=Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" />
             <Button Style="{StaticResource ButtonStyle}" Content="miser" Command="{Binding Path=BetCommand}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="2">
-            <Button Style="{StaticResource ButtonStyle}" Content="split"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="Assurence"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="Double"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="split" Command="{Binding Path=SplitCommand}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="Assurence" Command="{Binding Path=AssurenceCommand}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="Double" Command="{Binding Path=DoubleCommand}"/>
         </StackPanel>
 
         <!-- For Bank -->
@@ -55,42 +55,6 @@
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
                         ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[0].Cards}" ItemTemplate="{StaticResource ListCard}"
-                        HorizontalAlignment="Center">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"></StackPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
-            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
-                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[1].Cards}" ItemTemplate="{StaticResource ListCard}"
-                        HorizontalAlignment="Center">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"></StackPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
-            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
-                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[2].Cards}" ItemTemplate="{StaticResource ListCard}"
-                        HorizontalAlignment="Center">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"></StackPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" >
-            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
-                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[3].Cards}" ItemTemplate="{StaticResource ListCard}"
                         HorizontalAlignment="Center">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>

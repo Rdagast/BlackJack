@@ -2,6 +2,7 @@
 using DataModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -19,20 +20,25 @@ namespace BlackJack.ViewModel
     {
         #region Properties
         public Game MyGame { get; set; }
-        public Api api { get; set; }
+        public Api Api { get; set; }
         public User MyUser { get; set; }
         public User Bank { get; set; }
+        private Double _bet;
+        public Double Bet
+        {
+            get { return _bet; }
+            set { SetProperty<Double>(ref this._bet, value); }
+        }
         Frame currentFrame { get { return Window.Current.Content as Frame; } }
         private int _indexList;
-
         private MessageDialog dialog;
         #endregion
 
         public GameViewModel(Api api)
         {
-            this.api = api;
+            this.Api = api;
             this.MyGame = new Game();
-            this.MyUser = this.api.user;
+            this.MyUser = this.Api.user;
             this._indexList = 0;
 
             // guive a new hand
@@ -42,8 +48,8 @@ namespace BlackJack.ViewModel
             this.Bank = new User();
             this.Bank.UserHands.Add(new UserHand());
 
-            //2 starting cards for both player
-            GetCard(Bank.UserHands[0]);
+            //2 starting cards for player and 1 for bank
+            ResetPlayerHand();
             GetCard(Bank.UserHands[0]);
             GetCard(MyUser.UserHands[0]);
             GetCard(MyUser.UserHands[0]);
@@ -66,27 +72,165 @@ namespace BlackJack.ViewModel
 
         public void DistributeCard()
         {
-            //give a card and check victory or loose
-            GetCard(MyUser.UserHands[0]);
             BankPlay();
+
+            PlayerPlay();
+
+            //end game check
+            if (IsGameFinish())
+                WhoIsTheWinner();
+        }
+
+        #endregion
+
+        #region StopGame
+        private ICommand stopGameCommand;
+        public ICommand StopGameCommand
+        {
+            get
+            {
+                if (stopGameCommand == null)
+                {
+                    stopGameCommand = stopGameCommand ?? (stopGameCommand = new RelayCommand(p => { StopHand(); }));
+                }
+                return stopGameCommand;
+            }
+        }
+
+        public void StopHand()
+        {
+
+            MyUser.UserHands[this._indexList].IsFinish = true;
 
             if (IsGameFinish())
                 WhoIsTheWinner();
 
-            if (MyUser.UserHands.Count > 1)
-                if (this._indexList != MyUser.UserHands.Count - 1)
-                    this._indexList++;
-                else
-                    this._indexList = 0;
         }
+        #endregion
+
+        #region SplitComand
+        private ICommand _splitCommand;
+        public ICommand SplitCommand
+        {
+            get
+            {
+                if (_splitCommand == null)
+                {
+                    _splitCommand = _splitCommand ?? (_splitCommand = new RelayCommand(p => { Split(); }));
+                }
+                return _splitCommand;
+            }
+        }
+
+        public void Split()
+        {
+            ObservableCollection<Card> card = this.MyUser.UserHands[this._indexList].Cards;
+
+            //check if you have the same card and split it in other hand
+            if (card.Count > 1 && card[card.Count -1].Name == card[card.Count - 2].Name)
+            {
+                this.MyUser.UserHands.Add(new UserHand(this.MyUser.UserHands[this._indexList].Cards[card.Count-1], this.MyUser.UserHands[this._indexList].Bet));
+                this.MyUser.UserHands[this._indexList].Cards.RemoveAt(card.Count-1);
+            }
+        }
+        #endregion
+
+        #region AssuranceCommand
+        private ICommand _assuranceCommand;
+        public ICommand AssuranceCommand
+        {
+            get
+            {
+                if (_assuranceCommand == null)
+                {
+                    _assuranceCommand = _assuranceCommand ?? (_assuranceCommand = new RelayCommand(p => { Assurance(); }));
+                }
+                return _assuranceCommand;
+            }
+        }
+
+        public void Assurance()
+        {
+            if (Bank.UserHands[0].GetValue() == 10 || Bank.UserHands[0].GetValue() == 9 || Bank.UserHands[0].GetValue() == 11)
+            {
+                this.MyUser.Assurance = this.MyUser.UserHands[0].Bet / 2;
+            }
+        }
+        #endregion
+
+        #region DoubleCommand
+        private ICommand doubleCommand;
+        public ICommand DoubleCommand
+        {
+            get
+            {
+                if (doubleCommand == null)
+                {
+                    doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(p => { DoubleBet(); }));
+                }
+                return doubleCommand;
+            }
+        }
+
+        public void DoubleBet()
+        {
+            MyUser.UserHands[this._indexList].Bet *= 2;
+        }
+        #endregion
+
+        #region BetCommand
+        private ICommand betCommand;
+        public ICommand BetCommand
+        {
+            get
+            {
+                if (betCommand == null)
+                {
+                    betCommand = betCommand ?? (betCommand = new RelayCommand(p => { SendBetToHand(); }));
+                }
+                return betCommand;
+            }
+        }
+
+        public void SendBetToHand()
+        {
+            MyUser.UserHands[this._indexList].Bet = Bet;
+        }
+        #endregion
+
+        #region Methodes
 
         public void BankPlay()
         {
-            foreach (var item in Bank.UserHands)
+            if (Bank.UserHands[0].IsFinish == false)
             {
                 // Bank don't want to have more than 21 with the next card
-                if (item.GetValue() <= 16)
-                    GetCard(item);
+                if (Bank.UserHands[0].GetValue() <= 16)
+                    GetCard(Bank.UserHands[0]);
+                else
+                    Bank.UserHands[0].IsFinish = true;
+            }
+        }
+
+        public void PlayerPlay()
+        {
+            if (MyUser.UserHands[this._indexList].IsFinish == false)
+            {
+                //give a card and check victory or loose
+                GetCard(MyUser.UserHands[this._indexList]);
+
+                // check if score > 21
+                if (MyUser.UserHands[this._indexList].GetValue() >= 21)
+                {
+                    MyUser.UserHands[this._indexList].IsFinish = true;
+                }
+
+                // next turn for the other hand of player if he had split
+                if (MyUser.UserHands.Count > 1)
+                    if (this._indexList != MyUser.UserHands.Count - 1)
+                        this._indexList++;
+                    else
+                        this._indexList = 0;
             }
         }
 
@@ -108,56 +252,57 @@ namespace BlackJack.ViewModel
                 else
                     checks.Add(false);
             }
-            foreach (var bankItem in Bank.UserHands)
-            {
-                if (bankItem.IsFinish == true)
-                    checks.Add(true);
-                else
-                    checks.Add(false);
-            }
 
             foreach (var item in checks)
             {
                 if (item == false)
                     IsFinish = false;
             }
+
+            // if user finish all his plays the bank finish her play
+            if (Bank.UserHands[0].IsFinish == false && IsFinish == true)
+            {
+                while (Bank.UserHands[0].IsFinish == false)
+                {
+                    BankPlay();
+                }
+                IsFinish = true;
+            }
+
             return IsFinish;
         }
 
         public void WhoIsTheWinner()
         {
             UserHand winnerHand = new UserHand();
-            MyGame.Winner = Bank;
+            winnerHand.Cards.Add(new Card(Color.CLUBS, Name.TWO));
+
+            
+
             foreach (var playerItem in MyUser.UserHands)
             {
-                foreach (var winnerItem in MyGame.Winner.UserHands)
+                if (playerItem.GetValue() <= 21)
                 {
-                    if (playerItem.GetValue() > winnerItem.GetValue())
+                    if (playerItem.GetValue() > winnerHand.GetValue())
                     {
                         MyGame.Winner = MyUser;
                         winnerHand = playerItem;
                     }
-                    else if (playerItem.GetValue() == winnerItem.GetValue())
+                    else if (playerItem.GetValue() == winnerHand.GetValue())
                     {
                         MyGame.Winner = MyUser;
                         winnerHand = playerItem;
                     }
                 }
             }
-            foreach (var bankItem in Bank.UserHands)
+
+
+            if (Bank.UserHands[0].GetValue() <= 21)
             {
-                foreach (var winnerItem in MyGame.Winner.UserHands)
+                if (Bank.UserHands[0].GetValue() > winnerHand.GetValue())
                 {
-                    if (bankItem.GetValue() > winnerItem.GetValue())
-                    {
-                        MyGame.Winner = Bank;
-                        winnerHand = bankItem;
-                    }
-                    else if (bankItem.GetValue() == winnerItem.GetValue())
-                    {
-                        MyGame.Winner = Bank;
-                        winnerHand = bankItem;
-                    }
+                    MyGame.Winner = Bank;
+                    winnerHand = Bank.UserHands[0];
                 }
             }
             EndGame(winnerHand);
@@ -169,22 +314,30 @@ namespace BlackJack.ViewModel
             {
                 UpdateStack(winnerHand.Bet * 2.5);
                 this.dialog = new MessageDialog("win");
-                BadTextBox(this.dialog);
-                currentFrame.Navigate(typeof(GameView), null);
             }
             else if (MyGame.Winner == Bank)
             {
                 UpdateStack(-winnerHand.Bet);
                 this.dialog = new MessageDialog("loose");
-                BadTextBox(this.dialog);
-                currentFrame.Navigate(typeof(GameView), null);
             }
+            RestartTextBox(this.dialog);
         }
 
 
         public async void BadTextBox(MessageDialog dialog)
         {
             await dialog.ShowAsync();
+        }
+
+        public async void RestartTextBox(MessageDialog dialog)
+        {
+            dialog.Commands.Add(new UICommand("Restart") { Id = 0 });
+            dialog.DefaultCommandIndex = 0;
+
+            var result = await dialog.ShowAsync();
+
+            if ((int)result.Id == 0)
+                currentFrame.Navigate(typeof(GameView), this.Api);
         }
 
         public async void UpdateStack(Double earnings)
@@ -204,111 +357,13 @@ namespace BlackJack.ViewModel
                 }
             }
         }
-        #endregion
 
-        #region StopGame
-        private ICommand stopGameCommand;
-        public ICommand StopGameCommand
+        public void ResetPlayerHand()
         {
-            get
-            {
-                if (stopGameCommand == null)
-                {
-                    stopGameCommand = stopGameCommand ?? (stopGameCommand = new RelayCommand(p => { StopGame(); }));
-                }
-                return stopGameCommand;
-            }
+            this.MyUser.UserHands.Clear();
+            this.MyUser.UserHands.Add(new UserHand());
         }
 
-        public void StopGame()
-        {
-            MyGame.IsStop = true;
-        }
         #endregion
-
-        #region SplitComand
-        //private ICommand splitCommand;
-        //public ICommand SplitCommand
-        //{
-        //    get
-        //    {
-        //        if (splitCommand == null)
-        //        {
-        //            splitCommand = splitCommand ?? (splitCommand = new RelayCommand(p => { Split(); }));
-        //        }
-        //        return splitCommand;
-        //    }
-        //}
-
-        public void Split()
-        {
-            if (this.MyUser.UserHands[0].Cards.Count > 1)
-            {
-                this.MyUser.UserHands.Add(new UserHand(this.MyUser.UserHands[0].Cards[1], this.MyUser.UserHands[0].Bet));
-                this.MyUser.UserHands[0].Cards.RemoveAt(1);
-            }
-        }
-        #endregion
-
-        #region AssuranceCommand
-        //private ICommand assuranceCommand;
-        //public ICommand AssuranceCommand
-        //{
-        //    get
-        //    {
-        //        if (assuranceCommand == null)
-        //        {
-        //            assuranceCommand = assuranceCommand ?? (assuranceCommand = new RelayCommand(p => { Assurance(); }));
-        //        }
-        //        return assuranceCommand;
-        //    }
-        //}
-
-        public void Assurance()
-        {
-            if (Bank.UserHands[0].GetValue() == 10 || Bank.UserHands[0].GetValue() == 9 || Bank.UserHands[0].GetValue() == 11)
-            {
-                this.MyUser.Assurance = this.MyUser.UserHands[0].Bet / 2;
-            }
-        }
-        #endregion
-        //private ICommand doubleCommand;
-        //public ICommand DoubleCommand
-        //{
-        //    get
-        //    {
-        //        if (doubleCommand == null)
-        //        {
-        //            doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(p => { DoubleBet(); }));
-        //        }
-        //        return doubleCommand;
-        //    }
-        //}
-
-        public void DoubleBet()
-        {
-
-        }
-        #region DoubleCommand
-
-        #endregion
-
-        //private ICommand betCommand;
-        //public ICommand BetCommand
-        //{
-        //    get
-        //    {
-        //        if (betCommand == null)
-        //        {
-        //            betCommand = betCommand ?? (betCommand = new RelayCommand(() => { Bet(); }));
-        //        }
-        //        return betCommand;
-        //    }
-        //}
-
-        //public void Bet()
-        //{
-
-        //}
     }
 }

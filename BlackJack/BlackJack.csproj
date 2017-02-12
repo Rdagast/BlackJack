@@ -168,8 +168,8 @@
     <Content Include="Assets\Images\SPADES\SPADES_ACE.png" />
     <Content Include="Assets\Images\SPADES\SPADES_FIVE.png" />
     <Content Include="Assets\Images\SPADES\SPADES_FOUR.png" />
-    <Content Include="Assets\Images\SPADES\SPADE_HEIGHT.png" />
-    <Content Include="Assets\Images\SPADES\SPADE_JACK.png" />
+    <Content Include="Assets\Images\SPADES\SPADES_HEIGHT.png" />
+    <Content Include="Assets\Images\SPADES\SPADES_JACK.png" />
     <Content Include="Assets\Images\SPADES\SPADES_KING.png" />
     <Content Include="Assets\Images\SPADES\SPADES_NINE.png" />
     <Content Include="Assets\Images\SPADES\SPADES_QUEEN.png" />
