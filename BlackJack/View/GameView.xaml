@@ -12,7 +12,7 @@
             <Image Source="{Binding PictureUrl}" MaxHeight="73" MaxWidth="50" />
         </DataTemplate>
 
-        
+
 
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Background">
@@ -49,11 +49,10 @@
             <Button Style="{StaticResource ButtonStyle}" Content="Assurence"/>
             <Button Style="{StaticResource ButtonStyle}" Content="Double"/>
         </StackPanel>
-        
+
         <!-- For Bank -->
         <TextBlock Text="Bank" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
-            <TextBlock Text="{Binding Bank.UserHands[0].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
                         ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[0].Cards}" ItemTemplate="{StaticResource ListCard}"
                         HorizontalAlignment="Center">
@@ -64,9 +63,8 @@
                 </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
-        
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
-            <TextBlock Text="{Binding Bank.UserHands[1].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
                         ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[1].Cards}" ItemTemplate="{StaticResource ListCard}"
                         HorizontalAlignment="Center">
@@ -77,9 +75,8 @@
                 </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
-        
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
-            <TextBlock Text="{Binding Bank.UserHands[2].Bet}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
                         ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[2].Cards}" ItemTemplate="{StaticResource ListCard}"
                         HorizontalAlignment="Center">
@@ -90,9 +87,8 @@
                 </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
-        
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" >
-            <TextBlock Text="{Binding Bank.UserHands[3].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
                         ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[3].Cards}" ItemTemplate="{StaticResource ListCard}"
                         HorizontalAlignment="Center">
@@ -105,8 +101,8 @@
         </StackPanel>
 
         <!-- for my user-->
-        <TextBlock Text="{Binding MyUser.UserName}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White"/>
-        
+        <TextBlock Text="{Binding MyUser.username}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White"/>
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" >
             <TextBlock Text="{Binding MyUser.UserHands[0].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
@@ -119,7 +115,7 @@
                 </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
-        
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" >
             <TextBlock Text="{Binding MyUser.UserHands[1].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
@@ -132,7 +128,7 @@
                 </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
-        
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" >
             <TextBlock Text="{Binding MyUser.UserHands[2].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
@@ -145,7 +141,7 @@
                 </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
-        
+
         <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" >
             <TextBlock Text="{Binding MyUser.UserHands[3].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  

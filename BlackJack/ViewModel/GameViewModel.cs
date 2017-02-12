@@ -67,9 +67,7 @@ namespace BlackJack.ViewModel
         public void DistributeCard()
         {
             //give a card and check victory or loose
-            GetCard(MyUser.UserHands[this._indexList]);
-
-
+            GetCard(MyUser.UserHands[0]);
             BankPlay();
 
             if (IsGameFinish())
@@ -87,7 +85,7 @@ namespace BlackJack.ViewModel
             foreach (var item in Bank.UserHands)
             {
                 // Bank don't want to have more than 21 with the next card
-                if (item.Value <= 16)
+                if (item.GetValue() <= 16)
                     GetCard(item);
             }
         }
@@ -96,7 +94,7 @@ namespace BlackJack.ViewModel
         {
             // distribute card
             userHand.Cards.Add(this.MyGame.Decks[0].Cards[0]);
-            MyGame.Decks.RemoveAt(0);
+            MyGame.Decks[0].Cards.RemoveAt(0);
         }
 
         public bool IsGameFinish()
@@ -134,12 +132,12 @@ namespace BlackJack.ViewModel
             {
                 foreach (var winnerItem in MyGame.Winner.UserHands)
                 {
-                    if (playerItem.Value > winnerItem.Value)
+                    if (playerItem.GetValue() > winnerItem.GetValue())
                     {
                         MyGame.Winner = MyUser;
                         winnerHand = playerItem;
                     }
-                    else if (playerItem.Value == winnerItem.Value)
+                    else if (playerItem.GetValue() == winnerItem.GetValue())
                     {
                         MyGame.Winner = MyUser;
                         winnerHand = playerItem;
@@ -150,12 +148,12 @@ namespace BlackJack.ViewModel
             {
                 foreach (var winnerItem in MyGame.Winner.UserHands)
                 {
-                    if (bankItem.Value > winnerItem.Value)
+                    if (bankItem.GetValue() > winnerItem.GetValue())
                     {
                         MyGame.Winner = Bank;
                         winnerHand = bankItem;
                     }
-                    else if (bankItem.Value == winnerItem.Value)
+                    else if (bankItem.GetValue() == winnerItem.GetValue())
                     {
                         MyGame.Winner = Bank;
                         winnerHand = bankItem;
@@ -184,20 +182,6 @@ namespace BlackJack.ViewModel
         }
 
 
-        public void GetScore(User user)
-        {
-            foreach (var hand in user.UserHands)
-            {
-                foreach (var card in hand.Cards)
-                {
-                    hand.Value += card.Value;
-                }
-
-            }
-        }
-
-
-
         public async void BadTextBox(MessageDialog dialog)
         {
             await dialog.ShowAsync();
@@ -212,7 +196,7 @@ namespace BlackJack.ViewModel
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync("user/" + MyUser.Email + "/stack/" + earnings);
+                HttpResponseMessage response = await client.GetAsync("user/" + MyUser.email + "/stack/" + earnings);
                 if (response.IsSuccessStatusCode)
                 {
                     string res = await response.Content.ReadAsStringAsync();
@@ -282,7 +266,7 @@ namespace BlackJack.ViewModel
 
         public void Assurance()
         {
-            if (Bank.UserHands[0].Value == 10 || Bank.UserHands[0].Value == 9 || Bank.UserHands[0].Value == 11)
+            if (Bank.UserHands[0].GetValue() == 10 || Bank.UserHands[0].GetValue() == 9 || Bank.UserHands[0].GetValue() == 11)
             {
                 this.MyUser.Assurance = this.MyUser.UserHands[0].Bet / 2;
             }
