@@ -29,7 +29,6 @@ namespace BlackJack.ViewModel
 
         [JsonProperty("tables")]
         private ObservableCollection<Table> _listTable;
-
         /* 
          * List of Table with : 
          * id , max_seat , seat_available, min_bet, last_activity, is_closed , created_at , updated_at
@@ -40,6 +39,16 @@ namespace BlackJack.ViewModel
             set
             {
                 SetProperty(ref _listTable, value);
+            }
+        }
+        private Double _currentStack;
+
+        public Double CurrentStack
+        {
+            get { return _currentStack; }
+            set
+            {
+                SetProperty(ref _currentStack, value);
             }
         }
         private String json;
@@ -101,6 +110,7 @@ namespace BlackJack.ViewModel
                     Debug.WriteLine(res);
                     this.json = res;
                     JsonListTable();
+                    CurrentStack = this.Api.user.stack;
                 }
             }
 
@@ -146,43 +156,61 @@ namespace BlackJack.ViewModel
         // Sit on table Api 
         public async void SitOnTableApi(int id)
         {
-            using (var client = new HttpClient())
+            Double _minBetTable = 0;
+            foreach (var item in ListTable)
             {
-                client.BaseAddress = new Uri("http://demo.comte.re");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._api.token.access_token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.email + "/table/" + id + "/sit");
-                //Debug.WriteLine(response);
-                string res = await response.Content.ReadAsStringAsync();
-                //Debug.WriteLine(res);
-
-                
-                
-                if (response.IsSuccessStatusCode)
+                if(item.Id == id)
                 {
-                    TableToGameNav navParam = null;
-                    foreach (var item in _listTable)
-                    {
-                        if(item.Id == id)
-                            navParam = new TableToGameNav(this.Api, item);
-                    }
-                     
-                    currentFrame.Navigate(typeof(GameView), navParam);
-                }
-                else if (response.IsSuccessStatusCode != true)
-                {
-                    ErrorApi erAp = new ErrorApi();
-                    erAp = JsonConvert.DeserializeObject<ErrorApi>(res);
-                    if(erAp.Error_code == "user_already_on_table")
-                    {
-                        LeaveTable(id);
-                       
-
-                    }
-                    
+                   _minBetTable  = item.Min_bet;
                 }
             }
+
+            if(this.Api.user.stack >= _minBetTable)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://demo.comte.re");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._api.token.access_token);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = await client.GetAsync("/api/user/" + this.Api.user.email + "/table/" + id + "/sit");
+                    //Debug.WriteLine(response);
+                    string res = await response.Content.ReadAsStringAsync();
+                    //Debug.WriteLine(res);
+
+
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TableToGameNav navParam = null;
+                        foreach (var item in _listTable)
+                        {
+                            if (item.Id == id)
+                                navParam = new TableToGameNav(this.Api, item);
+                        }
+
+                        currentFrame.Navigate(typeof(GameView), navParam);
+                    }
+                    else if (response.IsSuccessStatusCode != true)
+                    {
+                        ErrorApi erAp = new ErrorApi();
+                        erAp = JsonConvert.DeserializeObject<ErrorApi>(res);
+                        if (erAp.Error_code == "user_already_on_table")
+                        {
+                            LeaveTable(id);
+
+
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                this.dialog = new MessageDialog("Your Stack is insufficient to this table");
+                BadTextBox(this.dialog);
+            }
+           
 
         }
         public async void LeaveTable(int id)
@@ -237,11 +265,16 @@ namespace BlackJack.ViewModel
                     this.Api = JsonConvert.DeserializeObject<Api>(str);
                     this.dialog = new MessageDialog("Your refill is success, you now have" + this.Api.user.stack + "tokens");
                     BadTextBox(this.dialog);
+                    CurrentStack = this.Api.user.stack;
+                    
                 }else
                 {
-                    String res = response.Content.ReadAsStringAsync().Result;
+                    
+                    Debug.WriteLine(str);
                     ErrorApi erAp = new ErrorApi();
-                    erAp = JsonConvert.DeserializeObject<ErrorApi>(res);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.NullValueHandling = NullValueHandling.Ignore;
+                    erAp = JsonConvert.DeserializeObject<ErrorApi>(str, settings);
                     this.dialog = new MessageDialog(erAp.Message);
                     BadTextBox(this.dialog);
                 }
