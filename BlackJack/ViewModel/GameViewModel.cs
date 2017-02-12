@@ -163,16 +163,16 @@ namespace BlackJack.ViewModel
         #endregion
 
         #region DoubleCommand
-        private ICommand doubleCommand;
+        private ICommand _doubleCommand;
         public ICommand DoubleCommand
         {
             get
             {
-                if (doubleCommand == null)
+                if (_doubleCommand == null)
                 {
-                    doubleCommand = doubleCommand ?? (doubleCommand = new RelayCommand(p => { DoubleBet(); }));
+                    _doubleCommand = _doubleCommand ?? (_doubleCommand = new RelayCommand(p => { DoubleBet(); }));
                 }
-                return doubleCommand;
+                return _doubleCommand;
             }
         }
 
@@ -183,16 +183,16 @@ namespace BlackJack.ViewModel
         #endregion
 
         #region BetCommand
-        private ICommand betCommand;
+        private ICommand _betCommand;
         public ICommand BetCommand
         {
             get
             {
-                if (betCommand == null)
+                if (_betCommand == null)
                 {
-                    betCommand = betCommand ?? (betCommand = new RelayCommand(p => { SendBetToHand(); }));
+                    _betCommand = _betCommand ?? (_betCommand = new RelayCommand(p => { SendBetToHand(); }));
                 }
-                return betCommand;
+                return _betCommand;
             }
         }
 
@@ -201,6 +201,45 @@ namespace BlackJack.ViewModel
             MyUser.UserHands[this._indexList].Bet += Bet;
             MyUser.stack -= Bet;
         }
+        #endregion
+
+        #region LeaveTableCommand
+
+        private ICommand _leaveTableCommand;
+        public ICommand LeaveTableCommand
+        {
+            get
+            {
+                if (_leaveTableCommand == null)
+                {
+                    _leaveTableCommand = _leaveTableCommand ?? (_leaveTableCommand = new RelayCommand(p => { LeaveTable(); }));
+                }
+                return _leaveTableCommand;
+            }
+        }
+
+        public async void LeaveTable()
+        {
+            using (var client = new HttpClient())
+            {
+                //send the new stack to api in GET
+                client.BaseAddress = new Uri("http://demo.comte.re/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.Nav.MyApi.token.access_token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync("/api/user/"+ this.MyUser.email +"/table/"+ this.GameTable.Id +"/leave");
+                Debug.WriteLine(response);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    this.dialog = new MessageDialog("Win assurance : " + MyUser.Assurance);
+                    BadTextBox(dialog);
+                    currentFrame.Navigate(typeof(ListTable), this.Nav.MyApi);
+                }
+            }
+        }
+
         #endregion
 
         #region Methodes
@@ -329,10 +368,19 @@ namespace BlackJack.ViewModel
             if (MyGame.Winner == MyUser)
             {
                 UpdateStack(winnerHand.Bet * 2.5);
+                foreach (var item in MyUser.UserHands)
+                {
+                    if(item != winnerHand)
+                        UpdateStack(-item.Bet);
+                }
                 this.dialog = new MessageDialog("win : " + winnerHand.Bet * 2.5);
             }
             else if (MyGame.Winner == Bank)
             {
+                foreach (var item in MyUser.UserHands)
+                {
+                    UpdateStack(-item.Bet);
+                }
                 UpdateStack(-winnerHand.Bet);
                 this.dialog = new MessageDialog("loose : "+ -winnerHand.Bet);
             }
@@ -383,7 +431,6 @@ namespace BlackJack.ViewModel
             this.MyUser.UserHands.Clear();
             this.MyUser.UserHands.Add(new UserHand(this.Nav.GameTable.Min_bet));
         }
-
         #endregion
     }
 }

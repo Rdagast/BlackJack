@@ -38,6 +38,9 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
+         
+        <Button Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}" Content="sortir de la table"  Command="{Binding Path=LeaveTableCommand}"/>
+
         <StackPanel Grid.Row="1" Grid.Column="0">
             <Button Style="{StaticResource ButtonStyle}" Content="carte"  Command="{Binding Path=NewCardCommand}"/>
             <Button Style="{StaticResource ButtonStyle}" Content="stop"  Command="{Binding Path=StopGameCommand}"/>
