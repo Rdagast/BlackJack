@@ -35,7 +35,7 @@ namespace BlackJack.ViewModel
         private MessageDialog dialog;
         #endregion
 
-        public GameViewModel(ref TableToGameNav nav)
+        public GameViewModel(TableToGameNav nav)
         {
             this.Nav = nav;
             this.MyGame = new Game();
