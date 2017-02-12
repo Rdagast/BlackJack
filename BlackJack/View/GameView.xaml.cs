@@ -20,7 +20,6 @@ namespace BlackJack.View
     /// </summary>
     public sealed partial class GameView : Page
     {
-        public Api Parameter;
         public GameView()
         {
             this.InitializeComponent();

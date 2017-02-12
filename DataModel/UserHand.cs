@@ -16,7 +16,12 @@ namespace DataModel
         public UserHand()
         {
             this.Cards = new ObservableCollection<Card>();
-            this.Bet = 0;
+            this.IsFinish = false;
+        }
+        public UserHand(Double bet)
+        {
+            this.Cards = new ObservableCollection<Card>();
+            this.Bet = bet;
             this.IsFinish = false;
         }
         public UserHand(Card card,Double bet)

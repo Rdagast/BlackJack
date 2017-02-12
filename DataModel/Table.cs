@@ -26,7 +26,7 @@ namespace DataModel
         [JsonProperty("updated_at")]
         public DateTime Updated_at { get; set; }
 
-        public List<Deck> Decks { get; set; }
+        public Deck Deck { get; set; }
 
         public Table()
         {
@@ -39,16 +39,31 @@ namespace DataModel
             this.Created_at = new DateTime();
             this.Updated_at = new DateTime();
 
-            this.Decks = new List<Deck>();
+            CreateGameDeck();
+        }
+
+        public void CreateGameDeck()
+        {
+            List<Deck> decks = new List<Deck>();
             for (int i = 0; i < 6; i++)
             {
-                this.Decks.Add(new Deck());
+                decks.Add(new Deck());
             }
-            foreach (Deck d in Decks)
+            foreach (Deck d in decks)
             {
                 d.ShuffleList();
             }
-            this.Decks[2].AddCutCard(); // add cut card between 50% and 80% of game Cards
+            decks[2].AddCutCard(); // add cut card between 50% and 80% of game Cards
+
+            this.Deck = new Deck();
+            this.Deck.Cards.Clear();
+            foreach (var deck in decks)
+            {
+                foreach (var card in deck.Cards)
+                {
+                    this.Deck.Cards.Add(card);
+                }
+            }
         }
 
     }

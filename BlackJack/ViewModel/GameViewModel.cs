@@ -44,7 +44,9 @@ namespace BlackJack.ViewModel
             this.GameTable = nav.GameTable;
 
             // guive a new hand
-            this.MyUser.UserHands.Add(new UserHand());
+            this.MyUser.UserHands.Add(new UserHand(this.Nav.GameTable.Min_bet));
+            this.MyUser.stack -= this.Nav.GameTable.Min_bet;
+
 
             //set Bank player
             this.Bank = new User();
@@ -196,7 +198,8 @@ namespace BlackJack.ViewModel
 
         public void SendBetToHand()
         {
-            MyUser.UserHands[this._indexList].Bet = Bet;
+            MyUser.UserHands[this._indexList].Bet += Bet;
+            MyUser.stack -= Bet;
         }
         #endregion
 
@@ -238,9 +241,20 @@ namespace BlackJack.ViewModel
 
         public void GetCard(UserHand userHand)
         {
-            // distribute card
-            userHand.Cards.Add(this.GameTable.Decks[0].Cards[0]);
-            GameTable.Decks[0].Cards.RemoveAt(0);
+            if (this.GameTable.Deck.Cards[0].IsCutCard)
+            {
+                //reinit the deck
+                this.Nav.GameTable.Deck.Cards.Clear();
+                this.Nav.GameTable.CreateGameDeck();
+                this.Nav.GameTable.Deck.Cards.RemoveRange(0, 4);
+            }
+            else
+            {
+                // distribute card
+                userHand.Cards.Add(this.GameTable.Deck.Cards[0]);
+                GameTable.Deck.Cards.RemoveAt(0);
+            }
+            
         }
 
         public bool IsGameFinish()
@@ -315,12 +329,18 @@ namespace BlackJack.ViewModel
             if (MyGame.Winner == MyUser)
             {
                 UpdateStack(winnerHand.Bet * 2.5);
-                this.dialog = new MessageDialog("win");
+                this.dialog = new MessageDialog("win : " + winnerHand.Bet * 2.5);
             }
             else if (MyGame.Winner == Bank)
             {
                 UpdateStack(-winnerHand.Bet);
-                this.dialog = new MessageDialog("loose");
+                this.dialog = new MessageDialog("loose : "+ -winnerHand.Bet);
+            }
+            // check assurance
+            if (MyGame.Winner == Bank && winnerHand.GetValue() == 21)
+            {
+                UpdateStack(MyUser.Assurance);
+                this.dialog = new MessageDialog("Win assurance : " + MyUser.Assurance);
             }
             RestartTextBox(this.dialog);
         }
@@ -349,21 +369,19 @@ namespace BlackJack.ViewModel
                 //send the new stack to api in GET
                 client.BaseAddress = new Uri("http://demo.comte.re/");
                 client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.Nav.MyApi.token.access_token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync("user/" + MyUser.email + "/stack/" + earnings);
-                if (response.IsSuccessStatusCode)
-                {
-                    string res = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine(res);
-                }
+                HttpResponseMessage response = await client.GetAsync("user/{" + MyUser.email + "}/stack/{" + earnings+"}");
+                Debug.WriteLine(response);
+                
             }
         }
 
         public void ResetPlayerHand()
         {
             this.MyUser.UserHands.Clear();
-            this.MyUser.UserHands.Add(new UserHand());
+            this.MyUser.UserHands.Add(new UserHand(this.Nav.GameTable.Min_bet));
         }
 
         #endregion

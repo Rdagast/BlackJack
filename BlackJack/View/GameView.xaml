@@ -46,7 +46,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="2">
             <Button Style="{StaticResource ButtonStyle}" Content="split" Command="{Binding Path=SplitCommand}"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="Assurence" Command="{Binding Path=AssurenceCommand}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="Assurence" Command="{Binding Path=AssuranceCommand}"/>
             <Button Style="{StaticResource ButtonStyle}" Content="Double" Command="{Binding Path=DoubleCommand}"/>
         </StackPanel>
 
