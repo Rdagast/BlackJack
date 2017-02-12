@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,37 +16,40 @@ namespace DataModel
        
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int id { get; set; }
         [JsonProperty("username")]
-        public String UserName { get; set; }
+        public String username { get; set; }
         [JsonProperty("email")]
-        public String Email { get; set; }
+        public String email { get; set; }
         [JsonProperty("created_at")]
-        public DateTime Created_at { get; set; }
+        public DateTime created_at { get; set; }
 
         [JsonProperty("updated_at")]
-        public DateTime Updated_at { get; set; }
+        public DateTime updated_at { get; set; }
         [JsonProperty("firstname")]
-        public String FirstName { get; set; }
+        public String firstname { get; set; }
         [JsonProperty("lastname")]
-        public String Lastname { get; set; }
+        public String lastname { get; set; }
         [JsonProperty("stack")]
-        public Double Stack { get; set; }
+        public Double stack { get; set; }
 
         [JsonProperty("is_connected")]
-        public int IsConnected { get; set; }
+        public int _isConnected { get; set; }
 
         [JsonProperty("last_refill")]
-        public DateTime LastRefill { get; set; }
+        public DateTime _lastRefill { get; set; }
 
 
         [JsonProperty("password")]
-        public String Password { get; set; }
-        public String Secret { get; set; }
+        public String password { get; set; }
+        public String secret { get; set; }
 
+
+        //public List<List<Card>> MyCards { get; set; }
+        //public List<Double> Bets { get; set; }
         
         public Double Assurance { get; set; }
-        public ObservableCollection<UserHand> UserHands { get; set; }
+        public List<UserHand> UserHands { get; set; }
 
 
 
@@ -58,17 +60,20 @@ namespace DataModel
         public User()
         {
             this.status = 0;
-            this.Id = 0;
-            this.UserName = null;
-            this.Email = null;
-            this.Created_at = new DateTime();
-            this.Updated_at = new DateTime();
-            this.FirstName = null;
-            this.Lastname = null;
-            this.Stack = 0;
-            this.IsConnected = 0;
-            this.LastRefill = new DateTime();
-            this.UserHands = new ObservableCollection<UserHand>();
+            this.id = 0;
+            this.username = null;
+            this.email = null;
+            this.created_at = new DateTime();
+            this.updated_at = new DateTime();
+            this.firstname = null;
+            this.lastname = null;
+            this.stack = 0;
+            this._isConnected = 0;
+            this._lastRefill = new DateTime();
+            this.UserHands = new List<UserHand>();
+            //this.Bets = new List<Double>();
+            //this.MyCards = new List<List<Card>>();
+            //this.MyCards.Add(new List<Card>());
             this.Assurance = 0;
         }
 

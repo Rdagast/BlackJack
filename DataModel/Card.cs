@@ -12,7 +12,6 @@ namespace DataModel
         public Name Name { get; set; }
         public int Value { get; set; }
         public bool IsCutCard { get; set; }
-        public String PictureUrl { get; set; }
 
 
         public Card(Color color, Name name)
@@ -21,7 +20,6 @@ namespace DataModel
             this.Name = name;
             this.Value = CalcValueCard();
             this.IsCutCard = false;
-            this.PictureUrl = "/Assets/Images/" + this.Type + "/" + this.Type + "_" + this.Name + ".png";
         }
         public Card()
         {
