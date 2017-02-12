@@ -125,7 +125,7 @@ namespace BlackJack.ViewModel
                 md5Hash = objAlgProv.AlgorithmName;
 
                 IBuffer buffHash = objAlgProv.HashData(buffUtf8Msg);
-                md5Hash= CryptographicBuffer.EncodeToHexString(buffHash);
+                md5Hash = CryptographicBuffer.EncodeToHexString(buffHash);
 
                 md5Hash = Convert.ToBase64String(md5Hash.GetBytes());
 
@@ -144,7 +144,8 @@ namespace BlackJack.ViewModel
 
                 var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("/api/auth/login", itemJson);
-              
+
+                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
                 if (response.IsSuccessStatusCode)
                 {
                     String _response =  response.Content.ReadAsStringAsync().Result;      

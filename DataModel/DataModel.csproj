@@ -116,6 +116,7 @@
     <Compile Include="Name.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Table.cs" />
+    <Compile Include="TableToGameNav.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserHand.cs" />

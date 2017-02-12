@@ -6,31 +6,115 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
-    
+    <Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button  Content="miser" HorizontalAlignment="Left"  VerticalAlignment="top" Command="{Binding Path=BetCommand}" Margin="10,358,0,0"/>
-        <Button  Content="nouvelle carte" HorizontalAlignment="center"  VerticalAlignment="Center" Command="{Binding Path=NewCardCommand}"/>
-        <Button  Content="stop" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding Path=StopGameCommand}"/>
-        <Slider Name="miser" HorizontalAlignment="Left"  Value="{Binding Path= MyUser.UserHands.Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" VerticalAlignment="Center"/>
-        <StackPanel Orientation="Vertical" Width="50" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <ListView ItemsSource="{Binding Bank.UserHands[0].Cards}" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding PictureUrl}" MaxHeight="73" MaxWidth="50" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+        <DataTemplate x:Key="ListCard">
+            <Image Source="{Binding PictureUrl}" MaxHeight="73" MaxWidth="50" />
+        </DataTemplate>
+
+
+
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Assets/Images/button.png"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Images/fond.png"></ImageBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="247*"/>
+            <RowDefinition Height="144*"/>
+            <RowDefinition Height="249*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Button Style="{StaticResource ButtonStyle}" Content="carte"  Command="{Binding Path=NewCardCommand}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="stop"  Command="{Binding Path=StopGameCommand}"/>
+            <Slider Value="{Binding Path=Bet, Mode=TwoWay}" Minimum="2" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" />
+            <Button Style="{StaticResource ButtonStyle}" Content="miser" Command="{Binding Path=BetCommand}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <Button Style="{StaticResource ButtonStyle}" Content="split" Command="{Binding Path=SplitCommand}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="Assurence" Command="{Binding Path=AssurenceCommand}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="Double" Command="{Binding Path=DoubleCommand}"/>
+        </StackPanel>
+
+        <!-- For Bank -->
+        <TextBlock Text="Bank" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White"/>
+        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" >
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
+                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Bank.UserHands[0].Cards}" ItemTemplate="{StaticResource ListCard}"
+                        HorizontalAlignment="Center">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
 
-        <StackPanel Width="50"  VerticalAlignment="Center" HorizontalAlignment="Center">
-            <ListView ItemsSource="{Binding Path= MyUser.UserHands[0].Cards}" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding PictureUrl}" MaxHeight="73" MaxWidth="50" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+        <!-- for my user-->
+        <TextBlock Text="{Binding MyUser.username}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White"/>
+
+        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" >
+            <TextBlock Text="{Binding MyUser.UserHands[0].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
+                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding MyUser.UserHands[0].Cards}" ItemTemplate="{StaticResource ListCard}"
+                        HorizontalAlignment="Center">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" >
+            <TextBlock Text="{Binding MyUser.UserHands[1].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
+                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding MyUser.UserHands[1].Cards}" ItemTemplate="{StaticResource ListCard}"
+                        HorizontalAlignment="Center">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" >
+            <TextBlock Text="{Binding MyUser.UserHands[2].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
+                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding MyUser.UserHands[2].Cards}" ItemTemplate="{StaticResource ListCard}"
+                        HorizontalAlignment="Center">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Width="auto" Height="73" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" >
+            <TextBlock Text="{Binding MyUser.UserHands[3].Bet}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+            <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"                  
+                        ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding MyUser.UserHands[3].Cards}" ItemTemplate="{StaticResource ListCard}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
             </ListView>
         </StackPanel>
     </Grid>

@@ -29,7 +29,7 @@ namespace BlackJack.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            GameViewModel gameViewModel = new GameViewModel((Api)e.Parameter);
+            GameViewModel gameViewModel = new GameViewModel((TableToGameNav)e.Parameter);
             this.DataContext = gameViewModel;
 
         }

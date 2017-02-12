@@ -10,7 +10,6 @@ namespace DataModel
     public class UserHand
     {
         public ObservableCollection<Card> Cards { get; set; }
-        public int Value { get; set; }
         public Double Bet { get; set; }
         public bool IsFinish { get; set; }
 
@@ -18,7 +17,6 @@ namespace DataModel
         {
             this.Cards = new ObservableCollection<Card>();
             this.Bet = 0;
-            this.Value = 0;
             this.IsFinish = false;
         }
         public UserHand(Card card,Double bet)
@@ -26,8 +24,17 @@ namespace DataModel
             this.Cards = new ObservableCollection<Card>();
             this.Cards.Add(card);
             this.Bet = bet;
-            this.Value = 0;
             this.IsFinish = false;
+        }
+
+        public int GetValue()
+        {
+            int value = 0;
+            foreach(var item in this.Cards)
+            {
+                value += item.Value;
+            }
+            return value;
         }
     }
 }
