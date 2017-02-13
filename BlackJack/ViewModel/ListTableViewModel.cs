@@ -215,7 +215,7 @@ namespace BlackJack.ViewModel
             }
             else
             {
-                this.dialog = new MessageDialog("Your Stack is insufficient to this table");
+                this.dialog = new MessageDialog("Votre Stack est insufisant pour cette table");
                 BadTextBox(this.dialog);
             }
            
@@ -271,7 +271,7 @@ namespace BlackJack.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     this.Api = JsonConvert.DeserializeObject<Api>(str);
-                    this.dialog = new MessageDialog("Your refill is success, you now have" + this.Api.user.stack + "tokens");
+                    this.dialog = new MessageDialog("Votre recharge vous a été livré, vous disposez de :" + this.Api.user.stack + "tokens");
                     BadTextBox(this.dialog);
                     CurrentStack = this.Api.user.stack;
                     

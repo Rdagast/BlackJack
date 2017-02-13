@@ -134,20 +134,20 @@ namespace BlackJack.ViewModel
                     }
                     else
                     {
-                        this.dialog = new MessageDialog("The email must be a valid email address");
+                        this.dialog = new MessageDialog("Cet email doit etre un email valide");
                         BadTextBox(this.dialog);
                     }
                 }
                 else
                 {
-                    this.dialog = new MessageDialog("The email must be a valid email address");
+                    this.dialog = new MessageDialog("Cet email doit etre un email valide");
                     BadTextBox(this.dialog);
                 }
 
             }
             else
             {
-                this.dialog = new MessageDialog("The password and repeat password must be identic");
+                this.dialog = new MessageDialog("Les mots de passe ne sont pas identiques");
                 BadTextBox(this.dialog);
             }
         }
