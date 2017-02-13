@@ -349,8 +349,8 @@ namespace BlackJack.ViewModel
                         winnerHand = playerItem;
                     }
                 }
+                
             }
-
 
             if (Bank.UserHands[0].GetValue() <= 21)
             {
@@ -365,6 +365,7 @@ namespace BlackJack.ViewModel
 
         public void EndGame(UserHand winnerHand)
         {
+            //player win
             if (MyGame.Winner == MyUser)
             {
                 UpdateStack(winnerHand.Bet * 2.5);
@@ -373,22 +374,23 @@ namespace BlackJack.ViewModel
                     if(item != winnerHand)
                         UpdateStack(-item.Bet);
                 }
-                this.dialog = new MessageDialog("win : " + winnerHand.Bet * 2.5);
+                this.dialog = new MessageDialog("Vous avez gagné : " + winnerHand.Bet * 2.5);
             }
-            else if (MyGame.Winner == Bank)
+            //player loose
+            else if (MyGame.Winner == Bank || MyGame.Winner == null)
             {
                 foreach (var item in MyUser.UserHands)
                 {
                     UpdateStack(-item.Bet);
                 }
                 UpdateStack(-winnerHand.Bet);
-                this.dialog = new MessageDialog("loose : "+ -winnerHand.Bet);
+                this.dialog = new MessageDialog("Vous avez perdu : "+ -winnerHand.Bet);
             }
             // check assurance
             if (MyGame.Winner == Bank && winnerHand.GetValue() == 21)
             {
                 UpdateStack(MyUser.Assurance);
-                this.dialog = new MessageDialog("Win assurance : " + MyUser.Assurance);
+                this.dialog = new MessageDialog("Votre assurance vous rapporte : " + MyUser.Assurance);
             }
             RestartTextBox(this.dialog);
         }
