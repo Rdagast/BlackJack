@@ -25,7 +25,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -47,9 +47,9 @@
         <Grid Grid.Column="2">
             <Button  Style="{StaticResource ButtonStyle}" Width="100" HorizontalAlignment="Right" Content="Logout" Command="{Binding LogoutCommand}" />
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="1">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="top">
-                <ListView   HorizontalAlignment="Center" x:Name="TableList" ItemsSource="{Binding ListTable}">
+        <Grid Grid.Row="2" Grid.Column="0">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="top">
+                <ListView   HorizontalAlignment="Left" x:Name="TableList" ItemsSource="{Binding ListTable}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -76,6 +76,29 @@
             </StackPanel>
 
         </Grid>
-           
+        <Grid Grid.Row="2" Grid.Column="1">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="top">
+                <ListView   HorizontalAlignment="Left" x:Name="UserList" ItemsSource="{Binding ListUserConnect}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!--<Image Source="/Assets/Images/fauteuil.png" MaxWidth="48" HorizontalAlignment="Left"/>-->
+                                <TextBlock Foreground="White">
+                                
+                                    <Run Text="Username :"/>
+                                    <Run Text="{Binding username}"/>
+                                    <Run Text="Stack :"/>
+                                    <Run Text="{Binding stack}"/>
+
+
+
+                                </TextBlock>
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

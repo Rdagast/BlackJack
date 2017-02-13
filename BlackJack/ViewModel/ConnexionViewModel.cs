@@ -96,13 +96,13 @@ namespace BlackJack.ViewModel
                 }
                 else
                 {
-                    this.dialog = new MessageDialog("remplissez les champs");
+                    this.dialog = new MessageDialog("Remplissez les champs");
                     BadTextBox(this.dialog);
                 }
             }
             else
             {
-                this.dialog = new MessageDialog("remplissez les champs");
+                this.dialog = new MessageDialog("Remplissez les champs");
                 BadTextBox(this.dialog);
             }
         }
@@ -179,9 +179,6 @@ namespace BlackJack.ViewModel
                         this.dialog = new MessageDialog("Pas d'utilisateur trouvé");
                         BadTextBox(this.dialog);
                     }
-
-
-
                 }
             }
         }

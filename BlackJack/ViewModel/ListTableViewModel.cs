@@ -26,6 +26,13 @@ namespace BlackJack.ViewModel
         //Alert for the user
         MessageDialog dialog = new MessageDialog(" ");
 
+        private ObservableCollection<User> _listUserConnect;
+
+        public ObservableCollection<User> ListUserConnect
+        {
+            get { return _listUserConnect; }
+            set { SetProperty(ref _listUserConnect, value); }
+        }
 
         [JsonProperty("tables")]
         private ObservableCollection<Table> _listTable;
@@ -80,6 +87,7 @@ namespace BlackJack.ViewModel
         {
             this._api = api;
             GetTable();
+            ListUser();
         }
         #endregion
 
@@ -322,6 +330,44 @@ namespace BlackJack.ViewModel
                     GC.WaitForPendingFinalizers();
                     currentFrame.Navigate(typeof(MainPage), null);
                 }
+            }
+        }
+
+        public async void ListUser()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://demo.comte.re/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(this.Api.token.token_type, this._api.token.access_token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpRequestMessage req = new HttpRequestMessage();
+
+
+
+                HttpResponseMessage response = await client.GetAsync("/api/user/connected");
+               // Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+                if (response.IsSuccessStatusCode)
+                {
+                    string res = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine(res);
+                    this.json = res;
+                    JsonListUser();
+                    CurrentStack = this.Api.user.stack;
+                }
+            }
+        }
+        public void JsonListUser()
+        {
+            User user = new User();
+            JObject table = JObject.Parse(this.json);
+            IList<JToken> results = table["users"].Children().ToList();
+            this.ListUserConnect = new ObservableCollection<User>();
+            foreach (JToken result in results)
+            {
+                user = JsonConvert.DeserializeObject<User>(result.ToString());
+                this.ListUserConnect.Add(user);
+
             }
         }
         #endregion
