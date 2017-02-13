@@ -144,16 +144,44 @@ namespace BlackJack.ViewModel
 
                 var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("/api/auth/login", itemJson);
-
-                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+                String _response = await response.Content.ReadAsStringAsync();
+                //Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
                 if (response.IsSuccessStatusCode)
                 {
-                    String _response =  response.Content.ReadAsStringAsync().Result;      
+
                     this.Api = new Api();
                     this.Api = JsonConvert.DeserializeObject<Api>(_response);
                     Debug.WriteLine(_response);
                     Debug.WriteLine(this.Api.user.stack);
-                    currentFrame.Navigate(typeof(ListTable),this.Api);
+                    currentFrame.Navigate(typeof(ListTable), this.Api);
+                }
+                else if (response.IsSuccessStatusCode != true)
+                {
+                    Debug.WriteLine(_response);
+                    ErrorApi erAp = new ErrorApi();
+                    _response = _response.Remove(_response.Length - 57);
+                    _response += "\"}";
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.NullValueHandling = NullValueHandling.Ignore;
+                    erAp = JsonConvert.DeserializeObject<ErrorApi>(_response, settings);
+                    if (erAp.Error_code == "login_data_fails")
+                    {
+                        this.dialog = new MessageDialog("Données non conformes aux attentes");
+                        BadTextBox(this.dialog);
+                    }
+                    else if (erAp.Error_code == "bad_credentials")
+                    {
+                        this.dialog = new MessageDialog("Mauvais identifiants");
+                        BadTextBox(this.dialog);
+                    }
+                    else if (erAp.Error_code == "login_no_result")
+                    {
+                        this.dialog = new MessageDialog("Pas d'utilisateur trouvé");
+                        BadTextBox(this.dialog);
+                    }
+
+
+
                 }
             }
         }

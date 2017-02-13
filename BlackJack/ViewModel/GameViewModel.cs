@@ -377,12 +377,14 @@ namespace BlackJack.ViewModel
             }
             else if (MyGame.Winner == Bank)
             {
+                Double currentBet = 0;
                 foreach (var item in MyUser.UserHands)
                 {
+
                     UpdateStack(-item.Bet);
+                    currentBet += item.Bet;
                 }
-                UpdateStack(-winnerHand.Bet);
-                this.dialog = new MessageDialog("loose : "+ -winnerHand.Bet);
+                this.dialog = new MessageDialog("loose : "+ currentBet);
             }
             // check assurance
             if (MyGame.Winner == Bank && winnerHand.GetValue() == 21)
@@ -422,6 +424,10 @@ namespace BlackJack.ViewModel
 
                 HttpResponseMessage response = await client.GetAsync("/api/user/" + MyUser.email + "/stack/" + earnings);
                 Debug.WriteLine(response);
+                if (response.IsSuccessStatusCode)
+                {
+                    this.Nav.MyApi.user.stack += earnings;
+                }
                 
             }
         }
