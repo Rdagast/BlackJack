@@ -379,9 +379,12 @@ namespace BlackJack.ViewModel
             //player loose
             else if (MyGame.Winner == Bank || MyGame.Winner == null)
             {
+                Double currentBet = 0;
                 foreach (var item in MyUser.UserHands)
                 {
+
                     UpdateStack(-item.Bet);
+                    currentBet += item.Bet;
                 }
                 UpdateStack(-winnerHand.Bet);
                 this.dialog = new MessageDialog("Vous avez perdu : "+ -winnerHand.Bet);
@@ -424,6 +427,10 @@ namespace BlackJack.ViewModel
 
                 HttpResponseMessage response = await client.GetAsync("/api/user/" + MyUser.email + "/stack/" + earnings);
                 Debug.WriteLine(response);
+                if (response.IsSuccessStatusCode)
+                {
+                    this.Nav.MyApi.user.stack += earnings;
+                }
                 
             }
         }
