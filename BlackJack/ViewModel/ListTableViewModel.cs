@@ -295,18 +295,12 @@ namespace BlackJack.ViewModel
         {
             get
             {
-                if (_sitOnTable == null)
+                if (_logoutCommand == null)
                 {
-                    _logoutCommand = _logoutCommand ?? (_logoutCommand = new RelayCommand(p => { Logout(); }));
+                    _logoutCommand = _logoutCommand ?? (_logoutCommand = new RelayCommand(p => { LogoutApi(); }));
                 }
                 return _logoutCommand;
             }
-        }
-
-        // logout
-        public void Logout()
-        {
-            LogoutApi();
         }
 
         // logout with send to api 
@@ -370,6 +364,39 @@ namespace BlackJack.ViewModel
 
             }
         }
+
+        //Command for logout
+        private RelayCommand _refreshUserCommand;
+        public ICommand RefreshUserCommand
+        {
+            get
+            {
+                if (_refreshUserCommand == null)
+                {
+                    _refreshUserCommand = _refreshUserCommand ?? (_refreshUserCommand = new RelayCommand(p => { Refresh(); }));
+                }
+                return _refreshUserCommand;
+            }
+        }
+
+        // logout with send to api 
+        public async void Refresh()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:14144/");
+                String jsonString = "{ firstname:"+ this.Api.user.firstname + ",lastname:"+ this.Api.user.lastname + ",username:"+ this.Api.user.username + " }";
+                var json = JsonConvert.SerializeObject(jsonString);
+                var itemJson = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync("/api/user/"+this.Api.user.email, itemJson);
+                Debug.WriteLine(response);
+                if (response.IsSuccessStatusCode)
+                {
+                    
+                }
+            }
+        }
+
         #endregion
     }
 }

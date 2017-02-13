@@ -32,7 +32,11 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <StackPanel Orientation="Vertical">
                 <TextBlock HorizontalAlignment="Left" Text="{Binding Api.User.username}"/>
-                <Button Style="{StaticResource ButtonStyle}" Width="100" HorizontalAlignment="Left" Content="Refill" Command="{Binding RefillTokens}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource ButtonStyle}" Width="100" HorizontalAlignment="Right" Content="Refresh" Command="{Binding RefreshUserCommand}"/>
+                    <Button Style="{StaticResource ButtonStyle}" Width="100" HorizontalAlignment="Left" Content="Refill" Command="{Binding RefillTokens}"/>
+                </StackPanel>
+                
                 <TextBlock HorizontalAlignment="Left" Foreground="White" >
                            <Run Text="You have :"/>
                            <Run Text="{Binding CurrentStack}"/>
